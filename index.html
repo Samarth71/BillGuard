@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BillGuard India - AI Medical Bill Auditor & Negotiator</title>
+  <meta name="description" content="Audit your medical bills using procedure codes against national fair-pricing benchmarks. Generate formal dispute letters and phone scripts to fight hospital overcharges in India.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #000319;
+      --bg-card: #0b0e23;
+      --bg-input: #191c30;
+      --primary: #7e6ff0;
+      --primary-glow: rgba(126, 111, 240, 0.4);
+      --primary-light: #9f92ff;
+      --accent-cyan: #4bffc0;
+      --accent-cyan-glow: rgba(75, 255, 192, 0.3);
+      --accent-orange: #ff934b;
+      --text-main: #ffffff;
+      --text-muted: #898999;
+      --text-dim: #5c5c70;
+      --border-glow: rgba(126, 111, 240, 0.18);
+      --border-dim: rgba(255, 255, 255, 0.08);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .glow-blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(140px); z-index: -1; opacity: 0.4; pointer-events: none;
+    }
+    .blob-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; right: -100px; }
+    .blob-2 { width: 500px; height: 500px; background: rgba(75, 255, 192, 0.2); bottom: 20%; left: -200px; }
+
+    /* NAV */
+    header {
+      position: sticky; top: 0; width: 100%;
+      background: rgba(0, 3, 25, 0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-dim); z-index: 100;
+    }
+    .nav-container {
+      max-width: 1200px; margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
+      color: var(--text-main); text-decoration: none; letter-spacing: -0.5px;
+    }
+    .logo span {
+      background: linear-gradient(135deg, var(--text-main) 30%, var(--primary-light) 70%, var(--accent-cyan));
+      background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .logo svg { width: 28px; height: 28px; fill: none; stroke: var(--primary-light); stroke-width: 2.5; }
+    nav { display: flex; gap: 2rem; align-items: center; }
+    nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: var(--transition-smooth); }
+    nav a:hover { color: var(--text-main); }
+    .btn-nav {
+      background: rgba(126, 111, 240, 0.1); border: 1px solid var(--primary);
+      color: var(--text-main); padding: 0.5rem 1.25rem; border-radius: 30px;
+      text-decoration: none; font-size: 0.9rem; font-weight: 600;
+      transition: var(--transition-smooth); box-shadow: 0 4px 15px rgba(126, 111, 240, 0.15);
+    }
+    .btn-nav:hover { background: var(--primary); box-shadow: 0 4px 25px var(--primary-glow); transform: translateY(-2px); }
+
+    /* MAIN */
+    main { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+
+    /* HERO */
+    .hero-section { text-align: center; margin-bottom: 5rem; position: relative; }
+    .badge-hero {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(126, 111, 240, 0.08); border: 1px solid var(--border-glow);
+      color: var(--primary-light); padding: 0.5rem 1.25rem; border-radius: 100px;
+      font-size: 0.85rem; font-weight: 600; font-family: var(--font-display);
+      margin-bottom: 1.5rem; letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .badge-hero svg { width: 16px; height: 16px; stroke: var(--accent-cyan); }
+    .hero-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 1.5rem;
+    }
+    .hero-title span.grad {
+      background: linear-gradient(135deg, #ffffff 40%, var(--primary-light) 75%, var(--accent-cyan));
+      background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-desc { max-width: 650px; margin: 0 auto 2.5rem; color: var(--text-muted); font-size: 1.15rem; }
+
+    /* APP GRID */
+    .app-grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+      gap: 2.5rem; margin-bottom: 5rem; align-items: start;
+    }
+    @media (max-width: 968px) { .app-grid { grid-template-columns: 1fr; } }
+
+    /* CARDS */
+    .card {
+      background: rgba(11, 14, 35, 0.6); backdrop-filter: blur(12px);
+      border: 1px solid var(--border-dim); border-radius: 20px; padding: 2.25rem;
+      transition: var(--transition-smooth); position: relative;
+    }
+    .card:hover { border-color: var(--border-glow); box-shadow: 0 12px 40px rgba(0, 3, 25, 0.7); }
+    .card-title {
+      font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
+      margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;
+    }
+    .card-title svg { width: 24px; height: 24px; stroke: var(--primary-light); fill: none; stroke-width: 2; }
+
+    /* FORMS */
+    .form-group { margin-bottom: 1.5rem; position: relative; }
+    .form-label {
+      display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted);
+      margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .input-wrapper { position: relative; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; background: var(--bg-input); border: 1px solid var(--border-dim);
+      color: var(--text-main); padding: 0.9rem 1.1rem; border-radius: 12px;
+      font-family: var(--font-body); font-size: 0.95rem; transition: var(--transition-smooth);
+      outline: none; appearance: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--primary-light); box-shadow: 0 0 15px rgba(126, 111, 240, 0.15);
+      background: rgba(25, 28, 48, 0.8);
+    }
+    .form-select option { background: #0b0e23; }
+
+    /* AUTOCOMPLETE */
+    .autocomplete-list {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: #121633; border: 1px solid var(--primary-light);
+      border-top: none; border-radius: 0 0 12px 12px;
+      max-height: 220px; overflow-y: auto; z-index: 50;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); display: none;
+    }
+    .autocomplete-item {
+      padding: 0.75rem 1.1rem; cursor: pointer; font-size: 0.9rem;
+      transition: var(--transition-smooth); border-bottom: 1px solid var(--border-dim);
+    }
+    .autocomplete-item:last-child { border-bottom: none; }
+    .autocomplete-item:hover { background: var(--bg-input); color: var(--accent-cyan); }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: var(--primary); border: 1px solid transparent;
+      color: var(--text-main); padding: 0.9rem 1.75rem; border-radius: 12px;
+      font-family: var(--font-body); font-weight: 600; font-size: 0.95rem;
+      cursor: pointer; transition: var(--transition-smooth); width: 100%;
+    }
+    .btn:hover { background: var(--primary-light); box-shadow: 0 8px 25px var(--primary-glow); transform: translateY(-1px); }
+    .btn-secondary { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--text-muted); box-shadow: none; transform: none; }
+
+    /* BADGES */
+    .badge {
+      display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .badge-fair { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid rgba(16,185,129,0.3); }
+    .badge-moderate { background: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
+    .badge-critical { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+    .badge-good { background: rgba(75,255,192,0.12); color: #4bffc0; border: 1px solid rgba(75,255,192,0.35); }
+
+    /* DETAILS BOX */
+    #procedure-details-box {
+      display: none; background: rgba(126, 111, 240, 0.05);
+      border: 1px solid var(--border-glow); border-radius: 12px;
+      padding: 1.25rem; margin-bottom: 1.5rem;
+    }
+    #procedure-details-box .details-top { display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem; }
+    #procedure-details-box h4 { font-family: var(--font-display); font-weight: 700; margin-bottom: 0.75rem; }
+    .price-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* AUDIT SUMMARY */
+    .audit-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
+    .stat-card {
+      background: var(--bg-input); border: 1px solid var(--border-dim);
+      border-radius: 16px; padding: 1.25rem; text-align: center;
+    }
+    .stat-val { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; line-height: 1.2; margin-top: 0.25rem; }
+    .stat-val.savings { color: var(--accent-cyan); text-shadow: 0 0 10px rgba(75,255,192,0.2); }
+
+    /* CHART */
+    .chart-container {
+      margin-top: 1.5rem; background: rgba(0,3,25,0.4);
+      border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border-dim);
+    }
+    .chart-header {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;
+      font-weight: 600; text-transform: uppercase;
+    }
+    .chart-legend { display: flex; gap: 1rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.35rem; }
+    .legend-color { width: 10px; height: 10px; border-radius: 3px; }
+    .legend-billed { background: var(--primary); }
+    .legend-fair { background: var(--accent-cyan); }
+    .custom-svg-chart { width: 100%; height: 200px; }
+
+    /* ITEM LIST */
+    .item-list { margin-top: 1.5rem; display: flex; flex-flow: column; gap: 1rem; }
+    .bill-item-row {
+      background: var(--bg-input); border: 1px solid var(--border-dim);
+      border-radius: 14px; padding: 1rem 1.25rem;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; transition: var(--transition-smooth);
+    }
+    .bill-item-row:hover { border-color: rgba(255,255,255,0.15); }
+    .bill-item-info { flex-grow: 1; }
+    .bill-item-code {
+      font-family: var(--font-display); font-size: 0.75rem; font-weight: 700;
+      color: var(--primary-light); background: rgba(126,111,240,0.1);
+      padding: 0.15rem 0.4rem; border-radius: 4px; margin-right: 0.5rem;
+    }
+    .bill-item-name { font-weight: 600; font-size: 0.95rem; }
+    .bill-item-pricing { display: flex; gap: 1.5rem; align-items: center; }
+    .price-group { text-align: right; }
+    .price-lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+    .price-val { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; }
+    .price-val.billed-val { color: var(--text-main); }
+    .price-val.fair-val { color: var(--accent-cyan); }
+    .btn-delete {
+      background: none; border: none; color: var(--text-dim);
+      cursor: pointer; transition: var(--transition-smooth); padding: 0.25rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btn-delete:hover { color: var(--danger); transform: scale(1.1); }
+    .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
+    .empty-state svg { width: 48px; height: 48px; stroke: var(--text-dim); margin-bottom: 1rem; display: block; margin-inline: auto; }
+
+    /* NEGOTIATOR */
+    .negotiator-section {
+      background: rgba(11,14,35,0.6); backdrop-filter: blur(12px);
+      border: 1px solid var(--border-dim); border-radius: 24px; padding: 3rem;
+      margin-bottom: 5rem; display: none;
+      grid-template-columns: 0.8fr 1.2fr; gap: 3rem;
+    }
+    @media (max-width: 968px) { .negotiator-section { grid-template-columns: 1fr; padding: 2rem; } }
+    .negotiator-inputs { border-right: 1px solid var(--border-dim); padding-right: 3rem; }
+    @media (max-width: 968px) { .negotiator-inputs { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border-dim); padding-bottom: 2rem; } }
+
+    /* TABS */
+    .tabs-header {
+      display: flex; background: var(--bg-input); border: 1px solid var(--border-dim);
+      padding: 0.35rem; border-radius: 12px; margin-bottom: 1.5rem;
+    }
+    .tab-btn {
+      flex: 1; background: none; border: none; color: var(--text-muted);
+      padding: 0.75rem; border-radius: 8px; font-family: var(--font-body);
+      font-weight: 600; font-size: 0.9rem; cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .tab-btn.active { background: var(--primary); color: var(--text-main); box-shadow: 0 4px 15px rgba(126,111,240,0.3); }
+    .tab-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
+
+    /* DOCUMENT */
+    .document-preview-container { position: relative; }
+    .document-card {
+      background: #ffffff; color: #1a1a1a; border-radius: 16px; padding: 2.5rem;
+      font-family: 'Times New Roman', Times, serif; font-size: 1.05rem; line-height: 1.5;
+      min-height: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      border: 1px solid #e2e8f0; overflow-x: auto;
+    }
+    .doc-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; }
+    .doc-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.6rem 1.25rem; border-radius: 8px; font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; transition: var(--transition-smooth);
+      border: 1px solid var(--border-dim); color: var(--text-main);
+      background: rgba(255,255,255,0.05); font-family: var(--font-body);
+    }
+    .doc-btn:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 4px 15px var(--primary-glow); }
+    .doc-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+
+    /* PHONE SCRIPT */
+    .phone-script-container { display: flex; flex-flow: column; gap: 1.25rem; }
+    .script-step {
+      background: var(--bg-input); border: 1px solid var(--border-dim);
+      border-radius: 16px; padding: 1.5rem;
+    }
+    .step-badge {
+      display: inline-block; background: rgba(75,255,192,0.1);
+      border: 1px solid var(--accent-cyan-glow); color: var(--accent-cyan);
+      font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem;
+      border-radius: 4px; text-transform: uppercase; margin-bottom: 0.75rem;
+    }
+    .step-prompt { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.75rem; }
+    .step-text {
+      background: rgba(0,3,25,0.4); border-left: 3px solid var(--primary);
+      padding: 1rem 1.25rem; border-radius: 0 10px 10px 0;
+      font-style: italic; color: var(--text-main); font-size: 0.95rem; margin-bottom: 1rem;
+    }
+    .step-tips { font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
+    .step-tips svg { width: 16px; height: 16px; stroke: var(--accent-orange); flex-shrink: 0; }
+    .rebuttal-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin: 1.5rem 0 0.75rem; color: var(--accent-orange); }
+    .accordion-item {
+      background: rgba(255,147,75,0.03); border: 1px solid rgba(255,147,75,0.15);
+      border-radius: 12px; margin-bottom: 0.75rem; overflow: hidden;
+    }
+    .accordion-header {
+      padding: 1rem; display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: var(--transition-smooth);
+    }
+    .accordion-header:hover { background: rgba(255,147,75,0.08); }
+    .accordion-header svg { width: 18px; height: 18px; stroke: var(--accent-orange); fill: none; transition: var(--transition-smooth); }
+    .accordion-item.active .accordion-header svg { transform: rotate(180deg); }
+    .accordion-content { padding: 0 1.25rem 1.25rem; display: none; border-top: 1px solid rgba(255,147,75,0.1); }
+    .accordion-item.active .accordion-content { display: block; }
+    .rebuttal-quote {
+      background: rgba(0,3,25,0.5); border-left: 3px solid var(--accent-orange);
+      padding: 0.75rem 1rem; border-radius: 0 8px 8px 0;
+      font-style: italic; margin-bottom: 0.5rem; font-size: 0.9rem;
+    }
+
+    /* CHECKLIST */
+    .timeline-container { margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.5rem; }
+    .timeline-card {
+      background: rgba(11,14,35,0.4); border: 1px solid var(--border-dim);
+      border-radius: 16px; padding: 1.5rem; position: relative;
+    }
+    .timeline-card:hover { border-color: rgba(75,255,192,0.3); }
+    .timeline-num { position: absolute; top: 1rem; right: 1.5rem; font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; color: rgba(126,111,240,0.15); line-height: 1; }
+    .timeline-title { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.75rem; }
+    .timeline-desc { font-size: 0.85rem; color: var(--text-muted); }
+    .checklist-container { margin-top: 1.5rem; }
+    .check-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; cursor: pointer; }
+    .check-item input { margin-top: 0.25rem; accent-color: var(--accent-cyan); }
+    .check-text { font-size: 0.9rem; color: var(--text-muted); transition: var(--transition-smooth); }
+    .check-item input:checked + .check-text { color: var(--text-main); text-decoration: line-through; opacity: 0.7; }
+
+    /* RIGHTS */
+    .rights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    @media (max-width: 768px) { .rights-grid { grid-template-columns: 1fr; } }
+    .rights-card {
+      background: linear-gradient(135deg, rgba(11,14,35,0.7) 0%, rgba(25,28,48,0.4) 100%);
+      border: 1px solid var(--border-dim); border-radius: 16px; padding: 1.75rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .rights-icon {
+      background: rgba(126,111,240,0.1); border: 1px solid var(--border-glow);
+      padding: 0.6rem; border-radius: 10px; color: var(--primary-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .rights-icon svg { width: 24px; height: 24px; stroke: currentColor; fill: none; }
+    .rights-title { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .rights-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--bg-card); border: 1px solid var(--primary-light);
+      color: var(--text-main); padding: 0.75rem 1.5rem; border-radius: 10px;
+      font-weight: 600; font-size: 0.9rem; box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      display: flex; align-items: center; gap: 0.5rem; z-index: 200;
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast svg { width: 18px; height: 18px; stroke: var(--accent-cyan); fill: none; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-dim); padding: 3rem 2rem;
+      text-align: center; color: var(--text-muted); font-size: 0.85rem;
+      background: rgba(0,3,25,0.9); position: relative;
+    }
+    footer p { margin-bottom: 0.75rem; }
+    footer .disclaimer {
+      max-width: 800px; margin: 1.5rem auto 0; color: var(--text-dim);
+      font-size: 0.75rem; border-top: 1px solid var(--border-dim); padding-top: 1.25rem;
+    }
+
+    @media print {
+      body { background: #ffffff; color: #000000; }
+      header, nav, footer, .glow-blob, .hero-section, .app-grid,
+      .negotiator-inputs, .tabs-header, .doc-actions, #resources-section, #rights-section { display: none !important; }
+      main { padding: 0; margin: 0; }
+      .negotiator-section { display: block !important; border: none !important; background: none !important; padding: 0 !important; }
+      .document-card { box-shadow: none !important; border: none !important; padding: 0 !important; color: #000 !important; background: #fff !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 11l2 2 4-4"/>
+        </svg>
+        <span>BillGuard India</span>
+      </a>
+      <nav>
+        <a href="#auditor-section">Auditor</a>
+        <a href="#negotiator-section">Negotiator</a>
+        <a href="#resources-section">Checklist</a>
+        <a href="#rights-section">Your Rights</a>
+        <a href="#auditor-section" class="btn-nav">Start Audit</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="badge-hero">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        CGHS Rates & Clinical Establishments Act 2026
+      </div>
+      <h1 class="hero-title">
+        Reclaim Your Money From<br><span class="grad">Hospital Overcharges</span>
+      </h1>
+      <p class="hero-desc">
+        BillGuard India compares your hospital bill against CGHS fair-price benchmarks. Generate formal dispute letters and phone scripts citing Indian patient protection laws.
+      </p>
+    </section>
+
+    <!-- APP GRID -->
+    <div class="app-grid" id="auditor-section">
+      <!-- LEFT -->
+      <section class="card">
+        <h2 class="card-title">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Bill Line Items
+        </h2>
+        <div class="form-group">
+          <label class="form-label" for="search-input">Search Procedure or Code</label>
+          <div class="input-wrapper">
+            <input type="text" id="search-input" class="form-input" placeholder="e.g. MRI, Blood Test, Consultation..." autocomplete="off">
+            <div id="autocomplete-results" class="autocomplete-list"></div>
+          </div>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.35rem;">Tip: Under the Clinical Establishments Act, hospitals must give you an itemised bill with procedure codes if you ask.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="charge-input">Hospital Billed Amount (₹)</label>
+          <input type="number" id="charge-input" class="form-input" placeholder="Enter amount from your bill e.g. 8500" min="1" step="1">
+        </div>
+
+        <div id="procedure-details-box">
+          <div class="details-top">
+            <span id="box-cpt" class="bill-item-code">CODE</span>
+            <span id="box-category" class="badge badge-fair">Category</span>
+          </div>
+          <h4 id="box-name">Procedure Name</h4>
+          <div class="price-grid-2">
+            <div><div class="price-lbl">National Avg (Private)</div><div id="box-avg" style="font-weight:700;">₹0</div></div>
+            <div><div class="price-lbl">CGHS Fair Rate</div><div id="box-fair" style="font-weight:700;color:var(--accent-cyan);">₹0</div></div>
+          </div>
+        </div>
+
+        <button type="button" id="btn-add-item" class="btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Item to Audit
+        </button>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="card">
+        <h2 class="card-title">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+          Live Audit Report
+        </h2>
+        <div class="audit-summary">
+          <div class="stat-card"><div class="price-lbl">Total Billed</div><div id="summary-billed" class="stat-val">₹0</div></div>
+          <div class="stat-card"><div class="price-lbl">CGHS Fair Total</div><div id="summary-fair" class="stat-val">₹0</div></div>
+          <div class="stat-card" id="savings-card" style="grid-column:span 2;background:rgba(75,255,192,0.05);border-color:rgba(75,255,192,0.15);transition:all 0.4s ease;">
+            <div class="price-lbl" id="savings-label" style="color:var(--accent-cyan);">ESTIMATED SAVINGS POTENTIAL</div>
+            <div id="summary-savings" class="stat-val savings">—</div>
+            <div id="savings-hint" style="font-size:0.75rem;color:var(--text-dim);margin-top:0.3rem;">Add items to see your result</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-header">
+            <span>Billed vs CGHS Fair Price</span>
+            <div class="chart-legend">
+              <div class="legend-item"><span class="legend-color legend-billed"></span>Billed</div>
+              <div class="legend-item"><span class="legend-color legend-fair"></span>CGHS Fair</div>
+            </div>
+          </div>
+          <div id="chart-wrapper"><div style="text-align:center;padding:2rem;color:var(--text-dim);font-size:0.85rem;">Add medical bill items to display audit chart</div></div>
+        </div>
+        <div class="item-list" id="added-items-container">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <p>No procedures added yet. Use the form to search and add items from your bill.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Good Bill Message — shown when NO overcharge detected -->
+    <div id="no-overcharge-msg" style="display:none; align-items:center; gap:1.5rem; background: rgba(75,255,192,0.06); border: 1px solid rgba(75,255,192,0.25); border-radius: 20px; padding: 2rem 2.5rem; margin-bottom: 3rem;">
+      <div style="font-size:3rem; flex-shrink:0;">🎉</div>
+      <div>
+        <h3 style="font-family:var(--font-display); font-weight:800; font-size:1.3rem; color:#4bffc0; margin-bottom:0.4rem;">Aapka Bill Fair Hai!</h3>
+        <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">Aapke sabhi charges CGHS benchmark rate se kam ya equal hain — <strong style="color:var(--text-main);">koi overcharge nahi mili.</strong> Aapko negotiation ki zaroorat nahi hai. Yeh hospital ne fair price charge kiya hai — good news!</p>
+      </div>
+    </div>
+
+    <!-- NEGOTIATOR -->
+    <div id="negotiator-section" class="negotiator-section">
+      <div class="negotiator-inputs">
+        <h2 class="card-title" style="margin-bottom:0.5rem;">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Negotiation Settings
+        </h2>
+        <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:2rem;">Customise your details. The letter and script update automatically.</p>
+        <div class="form-group">
+          <label class="form-label">Patient Name</label>
+          <input type="text" id="neg-patient-name" class="form-input" value="Rahul Sharma">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hospital / Provider Name</label>
+          <input type="text" id="neg-hospital-name" class="form-input" value="City Care Hospital">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Billing Dept. Address</label>
+          <input type="text" id="neg-billing-address" class="form-input" value="Billing Dept, City Care Hospital, Mumbai">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Account / Bill Number</label>
+          <input type="text" id="neg-acct-num" class="form-input" value="BILL-2026-00123">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date of Service</label>
+          <input type="date" id="neg-service-date" class="form-input" value="2026-04-15">
+        </div>
+        <div class="form-group">
+          <label class="form-label">State</label>
+          <select id="neg-state" class="form-select">
+            <option>Maharashtra</option><option>Delhi</option><option>Karnataka</option>
+            <option>Tamil Nadu</option><option>Telangana</option><option>Gujarat</option>
+            <option>Uttar Pradesh</option><option>West Bengal</option><option>Rajasthan</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Dispute Strategy</label>
+          <select id="neg-dispute-type" class="form-select">
+            <option value="overcharge">Standard CGHS Fair-Price Dispute (Recommended)</option>
+            <option value="surprise">Unauthorised Charges (Consumer Protection Act)</option>
+            <option value="hardship">Financial Hardship / Ayushman Bharat Request</option>
+            <option value="uninsured">Uninsured Self-Pay Adjustment</option>
+          </select>
+        </div>
+        <div class="form-group" id="hardship-details-group" style="display:none;">
+          <label class="form-label">Hardship Details</label>
+          <textarea id="neg-hardship-detail" class="form-textarea" rows="3" placeholder="e.g. loss of employment, sole breadwinner..."></textarea>
+        </div>
+      </div>
+
+      <div class="document-preview-container">
+        <div class="tabs-header">
+          <button class="tab-btn active" onclick="switchNegotiatorTab('letter')">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Dispute Letter
+          </button>
+          <button class="tab-btn" onclick="switchNegotiatorTab('script')">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Phone Script
+          </button>
+        </div>
+        <div id="tab-content-letter" style="display:block;">
+          <div class="document-card" id="letter-document"></div>
+          <div class="doc-actions">
+            <button class="doc-btn" onclick="copyLetterText()">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy Text
+            </button>
+            <button class="doc-btn" onclick="window.print()">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Print / Save PDF
+            </button>
+          </div>
+        </div>
+        <div id="tab-content-script" style="display:none;">
+          <div class="phone-script-container" id="phone-script-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <section class="card" style="margin-bottom:2.5rem;" id="resources-section">
+      <h2 class="card-title" style="color:var(--accent-cyan);">
+        <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        The Dispute Checklist
+      </h2>
+      <p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.5rem;">Follow these steps to audit your bill and protect your rights under Indian law.</p>
+      <div class="checklist-container">
+        <label class="check-item"><input type="checkbox"><div class="check-text"><strong>Request an Itemised Bill:</strong> Under the Clinical Establishments (Registration and Regulation) Act, 2010, hospitals must give you a detailed itemised statement with every procedure charge listed separately. Call billing and demand this before paying anything.</div></label>
+        <label class="check-item"><input type="checkbox"><div class="check-text"><strong>Check CGHS Rate Card:</strong> Compare each item against the CGHS (Central Government Health Scheme) package rates published by the Ministry of Health and Family Welfare (MoHFW). These are publicly available and are treated as the national fair-pricing standard.</div></label>
+        <label class="check-item"><input type="checkbox"><div class="check-text"><strong>Identify Overcharges & Upcoding:</strong> Flag any item billed at more than 150% of the CGHS rate, duplicate charges, or services you never received. BillGuard identifies these automatically in the audit above.</div></label>
+        <label class="check-item"><input type="checkbox"><div class="check-text"><strong>Check if Hospital is Empanelled under PM-JAY:</strong> If empanelled under Ayushman Bharat (PM-JAY) or a State health scheme, the hospital is legally bound by fixed package rates. Overcharging PM-JAY beneficiaries is illegal and can lead to de-empanelment.</div></label>
+        <label class="check-item"><input type="checkbox"><div class="check-text"><strong>Send Dispute Letter by Speed Post / Registered Post:</strong> Send the BillGuard dispute letter to the Billing Manager. Keep the postal receipt as proof — this establishes your formal dispute and protects you from aggressive collection.</div></label>
+        <label class="check-item"><input type="checkbox"><div class="check-text"><strong>File Consumer Complaint if Unresolved:</strong> If the hospital does not respond within 30 days, file a complaint on the National Consumer Helpline (1800-11-4000) or at edaakhil.nic.in — the NCDRC's online portal. Filing is free for disputes below ₹5 lakh.</div></label>
+      </div>
+      <div class="timeline-container">
+        <div class="timeline-card">
+          <span class="timeline-num">30</span>
+          <h4 class="timeline-title">30-Day Response Window</h4>
+          <p class="timeline-desc">Under the Consumer Protection Act 2019, you can expect a formal written response from the hospital within 30 days of a registered dispute letter.</p>
+        </div>
+        <div class="timeline-card">
+          <span class="timeline-num">2yr</span>
+          <h4 class="timeline-title">Consumer Forum Time Limit</h4>
+          <p class="timeline-desc">You can file a consumer complaint within 2 years of the date of service or the date you discovered the overcharge — whichever is later.</p>
+        </div>
+        <div class="timeline-card">
+          <span class="timeline-num">₹0</span>
+          <h4 class="timeline-title">No Filing Fee Below ₹5 Lakh</h4>
+          <p class="timeline-desc">Consumer complaints at District Forums have zero filing fee for claims below ₹5 lakh under the Consumer Protection Act 2019. No lawyer required.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHTS -->
+    <section class="card" id="rights-section">
+      <h2 class="card-title">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Indian Laws That Protect You
+      </h2>
+      <p style="color:var(--text-muted);font-size:0.95rem;">Your real legal protections as a patient in India. Use these in every negotiation.</p>
+      <div class="rights-grid">
+        <div class="rights-card">
+          <div class="rights-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div><h4 class="rights-title">Clinical Establishments Act, 2010</h4><p class="rights-desc">Requires all registered hospitals to display service rates, provide itemised bills on request, and follow standard treatment protocols. Hospitals cannot refuse an itemised bill.</p></div>
+        </div>
+        <div class="rights-card">
+          <div class="rights-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><h4 class="rights-title">Consumer Protection Act, 2019</h4><p class="rights-desc">Medical overcharging is a "deficiency in service." You can file a complaint at District, State, or National Consumer Disputes Redressal Commissions (NCDRC) with no fee for claims under ₹5 lakh.</p></div>
+        </div>
+        <div class="rights-card">
+          <div class="rights-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+          <div><h4 class="rights-title">Ayushman Bharat / PM-JAY</h4><p class="rights-desc">Empanelled hospitals must charge pre-fixed package rates for covered procedures. Overcharging PM-JAY beneficiaries is illegal and can result in de-empanelment of the hospital.</p></div>
+        </div>
+        <div class="rights-card">
+          <div class="rights-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><h4 class="rights-title">CGHS Rate Card (MoHFW)</h4><p class="rights-desc">The Ministry of Health publishes standardised CGHS rates for 1,600+ procedures. Courts and consumer forums use these as the national fair-price benchmark in disputes against private hospitals.</p></div>
+        </div>
+        <div class="rights-card">
+          <div class="rights-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+          <div><h4 class="rights-title">NMC Code of Ethics</h4><p class="rights-desc">The National Medical Commission forbids doctors from charging excessive fees, ordering unnecessary tests for financial gain, or engaging in "cut practice" with labs and hospitals.</p></div>
+        </div>
+        <div class="rights-card">
+          <div class="rights-icon"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <div><h4 class="rights-title">IRDAI / Bima Bharosa</h4><p class="rights-desc">IRDAI mandates cashless claim settlement within 1 hour of discharge. If a hospital inflates bills for insured patients or delays discharge, file a complaint at IRDAI's Bima Bharosa portal.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast-notify">
+    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <span id="toast-text">Done!</span>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 BillGuard India. All rights reserved.</p>
+    <p>Empowering Indian patients to audit and dispute hospital overcharges using CGHS benchmarks and Indian law.</p>
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> BillGuard India is an educational and informational tool. The letters, scripts, and analysis provided do not constitute formal legal advice. CGHS rates shown are approximate benchmarks — refer to the official MoHFW CGHS rate card for the latest figures. For serious disputes or litigation, consult a qualified consumer rights advocate.
+    </div>
+  </footer>
+
+  <script>
+    const cptDatabase = [
+      // ── EMERGENCY ──
+      { cpt:"ER-001", name:"Emergency Room Visit - Level 5 (Critical / Life Threatening)", category:"Emergency", avgCharge:45000, fairPrice:11200 },
+      { cpt:"ER-002", name:"Emergency Room Visit - Level 4 (High Complexity)", category:"Emergency", avgCharge:28000, fairPrice:7500 },
+      { cpt:"ER-003", name:"Emergency Room Visit - Level 3 (Moderate Severity)", category:"Emergency", avgCharge:15000, fairPrice:4200 },
+      { cpt:"ER-004", name:"Emergency Room Visit - Level 2 (Low Severity)", category:"Emergency", avgCharge:7000, fairPrice:2000 },
+      { cpt:"ER-005", name:"ICU Admission - Per Day (With Ventilator Support)", category:"Emergency", avgCharge:35000, fairPrice:12000 },
+      { cpt:"ER-006", name:"ICU Admission - Per Day (Without Ventilator)", category:"Emergency", avgCharge:18000, fairPrice:7500 },
+      { cpt:"ER-007", name:"NICU - Neonatal ICU Per Day", category:"Emergency", avgCharge:22000, fairPrice:8000 },
+      { cpt:"ER-008", name:"Ambulance Charges (Local, within city)", category:"Emergency", avgCharge:2500, fairPrice:500 },
+      { cpt:"ER-009", name:"Ambulance - Advanced Life Support (ALS)", category:"Emergency", avgCharge:5000, fairPrice:1500 },
+      { cpt:"ER-010", name:"Emergency Stabilisation & Resuscitation", category:"Emergency", avgCharge:15000, fairPrice:4000 },
+
+      // ── BLOOD PRESSURE / HYPERTENSION ──
+      { cpt:"BP-001", name:"Blood Pressure Check & Consultation (BP Checkup)", category:"Blood Pressure", avgCharge:500, fairPrice:100 },
+      { cpt:"BP-002", name:"24-Hour Ambulatory Blood Pressure Monitoring (ABPM)", category:"Blood Pressure", avgCharge:4500, fairPrice:1200 },
+      { cpt:"BP-003", name:"Renal Function Test for Hypertension (Creatinine + BUN)", category:"Blood Pressure", avgCharge:800, fairPrice:150 },
+      { cpt:"BP-004", name:"Urine Microalbumin (Hypertension Kidney Check)", category:"Blood Pressure", avgCharge:700, fairPrice:140 },
+      { cpt:"BP-005", name:"Plasma Renin Activity (PRA) Test", category:"Blood Pressure", avgCharge:2500, fairPrice:600 },
+      { cpt:"BP-006", name:"Aldosterone Test (Secondary Hypertension)", category:"Blood Pressure", avgCharge:2200, fairPrice:550 },
+      { cpt:"BP-007", name:"Echocardiography for Hypertensive Heart (2D Echo)", category:"Blood Pressure", avgCharge:6000, fairPrice:1800 },
+      { cpt:"BP-008", name:"Fundus Examination (Hypertensive Retinopathy)", category:"Blood Pressure", avgCharge:1200, fairPrice:300 },
+
+      // ── DIABETES / SUGAR ──
+      { cpt:"DM-001", name:"Fasting Blood Sugar (FBS / Glucose Fasting)", category:"Diabetes", avgCharge:200, fairPrice:35 },
+      { cpt:"DM-002", name:"Post Prandial Blood Sugar (PPBS / PP Glucose)", category:"Diabetes", avgCharge:200, fairPrice:35 },
+      { cpt:"DM-003", name:"Random Blood Sugar (RBS)", category:"Diabetes", avgCharge:150, fairPrice:25 },
+      { cpt:"DM-004", name:"HbA1c (Glycated Haemoglobin - 3 Month Sugar Average)", category:"Diabetes", avgCharge:700, fairPrice:120 },
+      { cpt:"DM-005", name:"Oral Glucose Tolerance Test (OGTT 75g)", category:"Diabetes", avgCharge:600, fairPrice:100 },
+      { cpt:"DM-006", name:"C-Peptide Level (Insulin Reserve Test)", category:"Diabetes", avgCharge:2200, fairPrice:500 },
+      { cpt:"DM-007", name:"Insulin Fasting Level", category:"Diabetes", avgCharge:1500, fairPrice:350 },
+      { cpt:"DM-008", name:"Urine Microalbumin (Diabetic Kidney Check)", category:"Diabetes", avgCharge:700, fairPrice:140 },
+      { cpt:"DM-009", name:"Diabetic Foot Examination & Consultation", category:"Diabetes", avgCharge:1000, fairPrice:250 },
+      { cpt:"DM-010", name:"Fundus Examination (Diabetic Retinopathy Check)", category:"Diabetes", avgCharge:1200, fairPrice:300 },
+      { cpt:"DM-011", name:"Nerve Conduction Study (Diabetic Neuropathy)", category:"Diabetes", avgCharge:4500, fairPrice:1200 },
+      { cpt:"DM-012", name:"Insulin Pump Initiation & Training", category:"Diabetes", avgCharge:8000, fairPrice:2500 },
+      { cpt:"DM-013", name:"Continuous Glucose Monitor (CGM) Sensor Placement", category:"Diabetes", avgCharge:3500, fairPrice:1000 },
+
+      // ── THYROID ──
+      { cpt:"TH-001", name:"TSH (Thyroid Stimulating Hormone)", category:"Thyroid", avgCharge:500, fairPrice:80 },
+      { cpt:"TH-002", name:"T3 (Triiodothyronine)", category:"Thyroid", avgCharge:400, fairPrice:65 },
+      { cpt:"TH-003", name:"T4 (Thyroxine / Total T4)", category:"Thyroid", avgCharge:400, fairPrice:65 },
+      { cpt:"TH-004", name:"Free T3 (FT3)", category:"Thyroid", avgCharge:550, fairPrice:90 },
+      { cpt:"TH-005", name:"Free T4 (FT4)", category:"Thyroid", avgCharge:550, fairPrice:90 },
+      { cpt:"TH-006", name:"Thyroid Profile (TSH + T3 + T4 - Complete)", category:"Thyroid", avgCharge:1200, fairPrice:250 },
+      { cpt:"TH-007", name:"Anti-TPO Antibody (Thyroid Peroxidase)", category:"Thyroid", avgCharge:1500, fairPrice:350 },
+      { cpt:"TH-008", name:"Anti-Thyroglobulin Antibody", category:"Thyroid", avgCharge:1500, fairPrice:350 },
+      { cpt:"TH-009", name:"Thyroid Ultrasound (USG Neck/Thyroid)", category:"Thyroid", avgCharge:2500, fairPrice:600 },
+      { cpt:"TH-010", name:"FNAC Thyroid (Fine Needle Aspiration Cytology)", category:"Thyroid", avgCharge:3500, fairPrice:900 },
+      { cpt:"TH-011", name:"Thyroid Scan (Radionuclide)", category:"Thyroid", avgCharge:5000, fairPrice:1500 },
+      { cpt:"TH-012", name:"Thyroidectomy (Total / Partial Surgery)", category:"Thyroid", avgCharge:90000, fairPrice:28000 },
+
+      // ── HEART / CARDIAC ──
+      { cpt:"HT-001", name:"ECG / EKG (Electrocardiogram with Report)", category:"Heart", avgCharge:800, fairPrice:120 },
+      { cpt:"HT-002", name:"2D Echocardiography (Heart Ultrasound)", category:"Heart", avgCharge:6000, fairPrice:1800 },
+      { cpt:"HT-003", name:"TMT / Treadmill Stress Test (Exercise ECG)", category:"Heart", avgCharge:4500, fairPrice:1200 },
+      { cpt:"HT-004", name:"Holter Monitor (24 Hour ECG Recording)", category:"Heart", avgCharge:5000, fairPrice:1400 },
+      { cpt:"HT-005", name:"Cardiac Troponin I / T (Heart Attack Test)", category:"Heart", avgCharge:1800, fairPrice:400 },
+      { cpt:"HT-006", name:"CPK-MB (Creatine Phosphokinase MB)", category:"Heart", avgCharge:900, fairPrice:180 },
+      { cpt:"HT-007", name:"BNP / NT-proBNP (Heart Failure Marker)", category:"Heart", avgCharge:3500, fairPrice:900 },
+      { cpt:"HT-008", name:"Coronary Angiography (CAG)", category:"Heart", avgCharge:25000, fairPrice:7500 },
+      { cpt:"HT-009", name:"Coronary Angioplasty PTCA (With Drug Eluting Stent)", category:"Heart", avgCharge:200000, fairPrice:95000 },
+      { cpt:"HT-010", name:"Coronary Angioplasty PTCA (Without Stent / POBA)", category:"Heart", avgCharge:80000, fairPrice:35000 },
+      { cpt:"HT-011", name:"CABG - Bypass Surgery (Coronary Artery)", category:"Heart", avgCharge:350000, fairPrice:150000 },
+      { cpt:"HT-012", name:"Pacemaker Implantation (Single Chamber)", category:"Heart", avgCharge:180000, fairPrice:80000 },
+      { cpt:"HT-013", name:"Pacemaker Implantation (Dual Chamber)", category:"Heart", avgCharge:250000, fairPrice:110000 },
+      { cpt:"HT-014", name:"Cardiac Catheterization (Diagnostic)", category:"Heart", avgCharge:20000, fairPrice:6000 },
+      { cpt:"HT-015", name:"Lipid Profile (Cholesterol, HDL, LDL, Triglycerides)", category:"Heart", avgCharge:900, fairPrice:180 },
+      { cpt:"HT-016", name:"Homocysteine Level (Cardiac Risk)", category:"Heart", avgCharge:1800, fairPrice:400 },
+      { cpt:"HT-017", name:"hs-CRP (High Sensitivity C-Reactive Protein)", category:"Heart", avgCharge:1200, fairPrice:280 },
+
+      // ── KIDNEY ──
+      { cpt:"KD-001", name:"Serum Creatinine (Kidney Function)", category:"Kidney", avgCharge:300, fairPrice:50 },
+      { cpt:"KD-002", name:"Blood Urea Nitrogen (BUN)", category:"Kidney", avgCharge:250, fairPrice:45 },
+      { cpt:"KD-003", name:"Uric Acid (Serum)", category:"Kidney", avgCharge:250, fairPrice:45 },
+      { cpt:"KD-004", name:"eGFR (Estimated Glomerular Filtration Rate)", category:"Kidney", avgCharge:400, fairPrice:70 },
+      { cpt:"KD-005", name:"Kidney Function Test (KFT Full Panel)", category:"Kidney", avgCharge:900, fairPrice:180 },
+      { cpt:"KD-006", name:"Urine Routine & Microscopy", category:"Kidney", avgCharge:400, fairPrice:60 },
+      { cpt:"KD-007", name:"24 Hour Urine Protein", category:"Kidney", avgCharge:600, fairPrice:110 },
+      { cpt:"KD-008", name:"Urine Culture & Sensitivity (UTI Test)", category:"Kidney", avgCharge:800, fairPrice:150 },
+      { cpt:"KD-009", name:"Ultrasound KUB (Kidney Ureter Bladder)", category:"Kidney", avgCharge:2500, fairPrice:600 },
+      { cpt:"KD-010", name:"CT Urography (IVP / CT KUB)", category:"Kidney", avgCharge:12000, fairPrice:3000 },
+      { cpt:"KD-011", name:"Kidney Biopsy (Renal Biopsy)", category:"Kidney", avgCharge:20000, fairPrice:6000 },
+      { cpt:"KD-012", name:"Haemodialysis Session (Single)", category:"Kidney", avgCharge:4000, fairPrice:1200 },
+      { cpt:"KD-013", name:"CAPD (Peritoneal Dialysis - Per Month)", category:"Kidney", avgCharge:35000, fairPrice:12000 },
+      { cpt:"KD-014", name:"Kidney Stone Removal - ESWL Lithotripsy", category:"Kidney", avgCharge:30000, fairPrice:9000 },
+      { cpt:"KD-015", name:"PCNL (Percutaneous Nephrolithotomy - Stone Surgery)", category:"Kidney", avgCharge:90000, fairPrice:28000 },
+      { cpt:"KD-016", name:"Ureteroscopy (URS) with Stone Removal", category:"Kidney", avgCharge:45000, fairPrice:14000 },
+
+      // ── LIVER ──
+      { cpt:"LV-001", name:"Liver Function Test (LFT Full Panel - SGOT, SGPT, Bilirubin)", category:"Liver", avgCharge:700, fairPrice:130 },
+      { cpt:"LV-002", name:"SGOT / AST (Liver Enzyme)", category:"Liver", avgCharge:250, fairPrice:40 },
+      { cpt:"LV-003", name:"SGPT / ALT (Liver Enzyme)", category:"Liver", avgCharge:250, fairPrice:40 },
+      { cpt:"LV-004", name:"Total Bilirubin (Jaundice Test)", category:"Liver", avgCharge:250, fairPrice:45 },
+      { cpt:"LV-005", name:"GGT (Gamma-Glutamyl Transferase)", category:"Liver", avgCharge:350, fairPrice:65 },
+      { cpt:"LV-006", name:"Alkaline Phosphatase (ALP)", category:"Liver", avgCharge:250, fairPrice:45 },
+      { cpt:"LV-007", name:"HBsAg (Hepatitis B Surface Antigen)", category:"Liver", avgCharge:400, fairPrice:70 },
+      { cpt:"LV-008", name:"Hepatitis B Core Antibody (Anti-HBc Total)", category:"Liver", avgCharge:800, fairPrice:160 },
+      { cpt:"LV-009", name:"HCV Antibody (Hepatitis C Test)", category:"Liver", avgCharge:600, fairPrice:110 },
+      { cpt:"LV-010", name:"HCV RNA Quantitative (Viral Load)", category:"Liver", avgCharge:5000, fairPrice:1400 },
+      { cpt:"LV-011", name:"AFP (Alpha Fetoprotein - Liver Cancer Marker)", category:"Liver", avgCharge:1200, fairPrice:280 },
+      { cpt:"LV-012", name:"Fibroscan (Liver Stiffness / Fibrosis Test)", category:"Liver", avgCharge:5000, fairPrice:1500 },
+      { cpt:"LV-013", name:"Liver Biopsy", category:"Liver", avgCharge:18000, fairPrice:5500 },
+      { cpt:"LV-014", name:"Ultrasound Abdomen - Liver Focus (USG)", category:"Liver", avgCharge:2500, fairPrice:600 },
+
+      // ── BLOOD TESTS / HAEMATOLOGY ──
+      { cpt:"BL-001", name:"Complete Blood Count (CBC with Differential)", category:"Blood Tests", avgCharge:600, fairPrice:85 },
+      { cpt:"BL-002", name:"Haemoglobin (Hb) Level", category:"Blood Tests", avgCharge:150, fairPrice:25 },
+      { cpt:"BL-003", name:"Peripheral Blood Smear (PBS Examination)", category:"Blood Tests", avgCharge:400, fairPrice:70 },
+      { cpt:"BL-004", name:"ESR (Erythrocyte Sedimentation Rate)", category:"Blood Tests", avgCharge:200, fairPrice:35 },
+      { cpt:"BL-005", name:"Prothrombin Time (PT / INR)", category:"Blood Tests", avgCharge:400, fairPrice:70 },
+      { cpt:"BL-006", name:"APTT (Activated Partial Thromboplastin Time)", category:"Blood Tests", avgCharge:400, fairPrice:70 },
+      { cpt:"BL-007", name:"D-Dimer (Clot / DVT Test)", category:"Blood Tests", avgCharge:1500, fairPrice:350 },
+      { cpt:"BL-008", name:"Serum Ferritin (Iron Store Level)", category:"Blood Tests", avgCharge:800, fairPrice:150 },
+      { cpt:"BL-009", name:"Serum Iron & TIBC", category:"Blood Tests", avgCharge:700, fairPrice:130 },
+      { cpt:"BL-010", name:"Reticulocyte Count", category:"Blood Tests", avgCharge:300, fairPrice:55 },
+      { cpt:"BL-011", name:"Blood Group & Rh Typing (ABO / Rh)", category:"Blood Tests", avgCharge:250, fairPrice:40 },
+      { cpt:"BL-012", name:"Blood Culture & Sensitivity (Sepsis Test)", category:"Blood Tests", avgCharge:2200, fairPrice:500 },
+      { cpt:"BL-013", name:"Widal Test (Typhoid)", category:"Blood Tests", avgCharge:300, fairPrice:55 },
+      { cpt:"BL-014", name:"Malaria Antigen Test (Rapid / RDT)", category:"Blood Tests", avgCharge:400, fairPrice:70 },
+      { cpt:"BL-015", name:"Dengue NS1 Antigen + IgM / IgG Panel", category:"Blood Tests", avgCharge:2000, fairPrice:400 },
+      { cpt:"BL-016", name:"COVID-19 RT-PCR Test", category:"Blood Tests", avgCharge:1200, fairPrice:300 },
+      { cpt:"BL-017", name:"COVID-19 Rapid Antigen Test", category:"Blood Tests", avgCharge:400, fairPrice:80 },
+      { cpt:"BL-018", name:"Leptospira IgM Antibody", category:"Blood Tests", avgCharge:1000, fairPrice:220 },
+      { cpt:"BL-019", name:"Chikungunya IgM Antibody", category:"Blood Tests", avgCharge:1200, fairPrice:280 },
+      { cpt:"BL-020", name:"HIV 1&2 Antibody (Elisa / Western Blot)", category:"Blood Tests", avgCharge:600, fairPrice:110 },
+
+      // ── VITAMINS & NUTRITION ──
+      { cpt:"VT-001", name:"Vitamin D3 (25-OH Cholecalciferol)", category:"Vitamins", avgCharge:1800, fairPrice:350 },
+      { cpt:"VT-002", name:"Vitamin B12 (Cyanocobalamin Level)", category:"Vitamins", avgCharge:900, fairPrice:200 },
+      { cpt:"VT-003", name:"Folate / Folic Acid Level", category:"Vitamins", avgCharge:900, fairPrice:200 },
+      { cpt:"VT-004", name:"Vitamin B6 (Pyridoxine Level)", category:"Vitamins", avgCharge:1500, fairPrice:350 },
+      { cpt:"VT-005", name:"Zinc Serum Level", category:"Vitamins", avgCharge:1200, fairPrice:280 },
+      { cpt:"VT-006", name:"Calcium (Serum Total)", category:"Vitamins", avgCharge:300, fairPrice:55 },
+      { cpt:"VT-007", name:"Phosphorus (Serum)", category:"Vitamins", avgCharge:280, fairPrice:50 },
+      { cpt:"VT-008", name:"Magnesium (Serum)", category:"Vitamins", avgCharge:400, fairPrice:75 },
+      { cpt:"VT-009", name:"Comprehensive Vitamin Panel (D3 + B12 + Folate)", category:"Vitamins", avgCharge:3500, fairPrice:800 },
+
+      // ── LUNGS / RESPIRATORY ──
+      { cpt:"LU-001", name:"Chest X-Ray PA View", category:"Lungs", avgCharge:800, fairPrice:150 },
+      { cpt:"LU-002", name:"Chest X-Ray PA + Lateral (2 Views)", category:"Lungs", avgCharge:1200, fairPrice:250 },
+      { cpt:"LU-003", name:"CT Chest HRCT (High Resolution - TB/COVID/ILD)", category:"Lungs", avgCharge:9000, fairPrice:2200 },
+      { cpt:"LU-004", name:"Pulmonary Function Test (PFT / Spirometry)", category:"Lungs", avgCharge:2500, fairPrice:600 },
+      { cpt:"LU-005", name:"6-Minute Walk Test (6MWT)", category:"Lungs", avgCharge:1200, fairPrice:300 },
+      { cpt:"LU-006", name:"Bronchoscopy (Diagnostic)", category:"Lungs", avgCharge:12000, fairPrice:3500 },
+      { cpt:"LU-007", name:"Sputum AFB (TB Smear Test)", category:"Lungs", avgCharge:400, fairPrice:70 },
+      { cpt:"LU-008", name:"CBNAAT / GeneXpert (TB Molecular Test)", category:"Lungs", avgCharge:1500, fairPrice:300 },
+      { cpt:"LU-009", name:"Mantoux Test (TB Skin Test)", category:"Lungs", avgCharge:300, fairPrice:60 },
+      { cpt:"LU-010", name:"IGRA (Interferon Gamma Release - TB Blood Test)", category:"Lungs", avgCharge:3500, fairPrice:900 },
+      { cpt:"LU-011", name:"ABG - Arterial Blood Gas Analysis", category:"Lungs", avgCharge:1500, fairPrice:350 },
+      { cpt:"LU-012", name:"Nebulisation Treatment (Single Session)", category:"Lungs", avgCharge:800, fairPrice:150 },
+      { cpt:"LU-013", name:"Oxygen Therapy (Per Day Charge)", category:"Lungs", avgCharge:2000, fairPrice:500 },
+      { cpt:"LU-014", name:"Pleural Fluid Aspiration (Thoracocentesis)", category:"Lungs", avgCharge:5000, fairPrice:1500 },
+
+      // ── BONES & JOINTS ──
+      { cpt:"BJ-001", name:"X-Ray Any Single Joint (Knee / Hip / Shoulder / Elbow)", category:"Bones & Joints", avgCharge:600, fairPrice:110 },
+      { cpt:"BJ-002", name:"X-Ray Spine (Cervical / Lumbar / Dorsal)", category:"Bones & Joints", avgCharge:800, fairPrice:150 },
+      { cpt:"BJ-003", name:"MRI Knee Joint (Without Contrast)", category:"Bones & Joints", avgCharge:10000, fairPrice:2800 },
+      { cpt:"BJ-004", name:"MRI Spine Lumbar (Without Contrast)", category:"Bones & Joints", avgCharge:11000, fairPrice:3000 },
+      { cpt:"BJ-005", name:"MRI Spine Cervical (Neck, Without Contrast)", category:"Bones & Joints", avgCharge:11000, fairPrice:3000 },
+      { cpt:"BJ-006", name:"Bone Mineral Density (BMD / DEXA Scan)", category:"Bones & Joints", avgCharge:3000, fairPrice:800 },
+      { cpt:"BJ-007", name:"RA Factor (Rheumatoid Arthritis Test)", category:"Bones & Joints", avgCharge:400, fairPrice:70 },
+      { cpt:"BJ-008", name:"Anti-CCP Antibody (Arthritis Marker)", category:"Bones & Joints", avgCharge:1500, fairPrice:350 },
+      { cpt:"BJ-009", name:"ANA (Antinuclear Antibody - Lupus/SLE)", category:"Bones & Joints", avgCharge:1200, fairPrice:280 },
+      { cpt:"BJ-010", name:"CRP (C-Reactive Protein - Inflammation)", category:"Bones & Joints", avgCharge:400, fairPrice:70 },
+      { cpt:"BJ-011", name:"Uric Acid (Gout Test)", category:"Bones & Joints", avgCharge:250, fairPrice:45 },
+      { cpt:"BJ-012", name:"Joint Aspiration (Arthrocentesis)", category:"Bones & Joints", avgCharge:3000, fairPrice:800 },
+      { cpt:"BJ-013", name:"Total Knee Replacement (TKR - Unilateral)", category:"Bones & Joints", avgCharge:280000, fairPrice:95000 },
+      { cpt:"BJ-014", name:"Total Hip Replacement (THR - Unilateral)", category:"Bones & Joints", avgCharge:260000, fairPrice:90000 },
+      { cpt:"BJ-015", name:"Knee Arthroscopy (Diagnostic + Meniscectomy)", category:"Bones & Joints", avgCharge:55000, fairPrice:18000 },
+      { cpt:"BJ-016", name:"POP Cast Application (Fracture)", category:"Bones & Joints", avgCharge:3000, fairPrice:700 },
+      { cpt:"BJ-017", name:"Physiotherapy Session (Per Session)", category:"Bones & Joints", avgCharge:800, fairPrice:180 },
+
+      // ── STOMACH / GASTRO ──
+      { cpt:"GS-001", name:"Upper GI Endoscopy / OGD Scopy (Diagnostic)", category:"Gastro", avgCharge:8000, fairPrice:2500 },
+      { cpt:"GS-002", name:"Colonoscopy (Diagnostic, Outpatient)", category:"Gastro", avgCharge:18000, fairPrice:5500 },
+      { cpt:"GS-003", name:"Ultrasound Abdomen (Complete - Liver, GB, Kidney)", category:"Gastro", avgCharge:3500, fairPrice:900 },
+      { cpt:"GS-004", name:"CT Scan Abdomen & Pelvis (With Contrast)", category:"Gastro", avgCharge:14000, fairPrice:3500 },
+      { cpt:"GS-005", name:"H. Pylori Antigen Stool Test (Helicobacter)", category:"Gastro", avgCharge:700, fairPrice:130 },
+      { cpt:"GS-006", name:"H. Pylori Urea Breath Test (UBT)", category:"Gastro", avgCharge:1500, fairPrice:350 },
+      { cpt:"GS-007", name:"Stool Routine & Microscopy", category:"Gastro", avgCharge:350, fairPrice:55 },
+      { cpt:"GS-008", name:"Stool Culture & Sensitivity", category:"Gastro", avgCharge:700, fairPrice:130 },
+      { cpt:"GS-009", name:"Amylase & Lipase (Pancreatitis Test)", category:"Gastro", avgCharge:700, fairPrice:130 },
+      { cpt:"GS-010", name:"CA-19.9 (Pancreatic Cancer Marker)", category:"Gastro", avgCharge:2000, fairPrice:500 },
+      { cpt:"GS-011", name:"Appendicectomy (Laparoscopic)", category:"Gastro", avgCharge:75000, fairPrice:25000 },
+      { cpt:"GS-012", name:"Cholecystectomy - Gallbladder Removal (Laparoscopic)", category:"Gastro", avgCharge:90000, fairPrice:28000 },
+      { cpt:"GS-013", name:"Hernia Repair (Inguinal - Laparoscopic)", category:"Gastro", avgCharge:60000, fairPrice:20000 },
+      { cpt:"GS-014", name:"Piles / Haemorrhoid Surgery (Haemorrhoidectomy)", category:"Gastro", avgCharge:40000, fairPrice:13000 },
+      { cpt:"GS-015", name:"ERCP (Bile Duct Scope with Stone Removal)", category:"Gastro", avgCharge:35000, fairPrice:10000 },
+
+      // ── BRAIN / NEURO ──
+      { cpt:"NR-001", name:"MRI Brain (Without Contrast)", category:"Neuro", avgCharge:12000, fairPrice:3200 },
+      { cpt:"NR-002", name:"MRI Brain (With Contrast)", category:"Neuro", avgCharge:16000, fairPrice:4500 },
+      { cpt:"NR-003", name:"CT Scan Head / Brain (Without Contrast)", category:"Neuro", avgCharge:7500, fairPrice:1800 },
+      { cpt:"NR-004", name:"EEG (Electroencephalogram - Epilepsy / Seizure)", category:"Neuro", avgCharge:3000, fairPrice:750 },
+      { cpt:"NR-005", name:"Nerve Conduction Study (NCS)", category:"Neuro", avgCharge:4500, fairPrice:1200 },
+      { cpt:"NR-006", name:"EMG (Electromyography)", category:"Neuro", avgCharge:4000, fairPrice:1100 },
+      { cpt:"NR-007", name:"Lumbar Puncture / Spinal Tap (CSF Analysis)", category:"Neuro", avgCharge:6000, fairPrice:1800 },
+      { cpt:"NR-008", name:"Carotid Doppler Ultrasound (Stroke Risk)", category:"Neuro", avgCharge:4000, fairPrice:1000 },
+      { cpt:"NR-009", name:"Neurosurgeon Consultation (OPD)", category:"Neuro", avgCharge:2500, fairPrice:700 },
+
+      // ── EYES ──
+      { cpt:"EY-001", name:"Complete Eye Examination (Refraction + Fundus)", category:"Eyes", avgCharge:800, fairPrice:180 },
+      { cpt:"EY-002", name:"Fundus Examination (Ophthalmoscopy)", category:"Eyes", avgCharge:600, fairPrice:120 },
+      { cpt:"EY-003", name:"Intraocular Pressure (Tonometry - Glaucoma)", category:"Eyes", avgCharge:400, fairPrice:80 },
+      { cpt:"EY-004", name:"Slit Lamp Examination", category:"Eyes", avgCharge:500, fairPrice:100 },
+      { cpt:"EY-005", name:"Visual Field Test (Perimetry)", category:"Eyes", avgCharge:1500, fairPrice:350 },
+      { cpt:"EY-006", name:"OCT (Optical Coherence Tomography - Retina)", category:"Eyes", avgCharge:3500, fairPrice:900 },
+      { cpt:"EY-007", name:"Cataract Surgery (Phacoemulsification + IOL)", category:"Eyes", avgCharge:30000, fairPrice:9500 },
+      { cpt:"EY-008", name:"LASIK / Laser Eye Surgery (Per Eye)", category:"Eyes", avgCharge:35000, fairPrice:12000 },
+      { cpt:"EY-009", name:"Retinal Laser (Photocoagulation)", category:"Eyes", avgCharge:15000, fairPrice:5000 },
+      { cpt:"EY-010", name:"Intravitreal Injection (Anti-VEGF / Avastin)", category:"Eyes", avgCharge:25000, fairPrice:8000 },
+
+      // ── EARS / ENT ──
+      { cpt:"EN-001", name:"ENT Consultation & Examination", category:"ENT", avgCharge:800, fairPrice:200 },
+      { cpt:"EN-002", name:"Audiometry Test (Hearing Test)", category:"ENT", avgCharge:1500, fairPrice:350 },
+      { cpt:"EN-003", name:"Tympanometry (Middle Ear Test)", category:"ENT", avgCharge:1000, fairPrice:250 },
+      { cpt:"EN-004", name:"Pure Tone Audiogram (PTA)", category:"ENT", avgCharge:1200, fairPrice:300 },
+      { cpt:"EN-005", name:"Nasal Endoscopy (Diagnostic)", category:"ENT", avgCharge:2000, fairPrice:500 },
+      { cpt:"EN-006", name:"Tonsillectomy (Adenotonsillectomy Surgery)", category:"ENT", avgCharge:35000, fairPrice:11000 },
+      { cpt:"EN-007", name:"Septoplasty (Deviated Nasal Septum Surgery)", category:"ENT", avgCharge:45000, fairPrice:15000 },
+      { cpt:"EN-008", name:"FESS (Functional Endoscopic Sinus Surgery)", category:"ENT", avgCharge:55000, fairPrice:18000 },
+      { cpt:"EN-009", name:"Hearing Aid Fitting (Per Ear)", category:"ENT", avgCharge:18000, fairPrice:6000 },
+      { cpt:"EN-010", name:"Ear Wax Removal (Syringing / Microsuction)", category:"ENT", avgCharge:800, fairPrice:180 },
+
+      // ── SKIN / DERMATOLOGY ──
+      { cpt:"SK-001", name:"Dermatologist Consultation (OPD)", category:"Skin", avgCharge:1000, fairPrice:280 },
+      { cpt:"SK-002", name:"Skin Biopsy (Punch / Excisional)", category:"Skin", avgCharge:3000, fairPrice:800 },
+      { cpt:"SK-003", name:"Patch Test (Allergy - 20 allergens)", category:"Skin", avgCharge:3500, fairPrice:900 },
+      { cpt:"SK-004", name:"KOH Mount (Fungal Infection Test)", category:"Skin", avgCharge:300, fairPrice:55 },
+      { cpt:"SK-005", name:"Tzanck Smear (Herpes / Chickenpox Test)", category:"Skin", avgCharge:400, fairPrice:75 },
+      { cpt:"SK-006", name:"VDRL / RPR (Syphilis Test)", category:"Skin", avgCharge:300, fairPrice:55 },
+      { cpt:"SK-007", name:"Intralesional Steroid Injection (Keloid / Acne)", category:"Skin", avgCharge:1500, fairPrice:400 },
+      { cpt:"SK-008", name:"Cryotherapy (Wart / Lesion Removal)", category:"Skin", avgCharge:2000, fairPrice:500 },
+      { cpt:"SK-009", name:"Chemical Peel (Medical - Acne Scar)", category:"Skin", avgCharge:3000, fairPrice:800 },
+
+      // ── WOMEN / GYNAECOLOGY ──
+      { cpt:"GY-001", name:"Gynaecologist Consultation (OPD)", category:"Gynaecology", avgCharge:1000, fairPrice:280 },
+      { cpt:"GY-002", name:"Pap Smear (Cervical Cancer Screening)", category:"Gynaecology", avgCharge:800, fairPrice:160 },
+      { cpt:"GY-003", name:"HPV DNA Test (Cervical Cancer - HPV 16/18)", category:"Gynaecology", avgCharge:3500, fairPrice:900 },
+      { cpt:"GY-004", name:"Obstetric Ultrasound (Dating Scan / First Trimester)", category:"Gynaecology", avgCharge:2000, fairPrice:500 },
+      { cpt:"GY-005", name:"Level 2 Anomaly Scan (18-20 Weeks)", category:"Gynaecology", avgCharge:3500, fairPrice:900 },
+      { cpt:"GY-006", name:"Doppler Ultrasound (Fetal / Umbilical)", category:"Gynaecology", avgCharge:3000, fairPrice:750 },
+      { cpt:"GY-007", name:"Normal Delivery (Institutional / Hospital)", category:"Gynaecology", avgCharge:30000, fairPrice:9000 },
+      { cpt:"GY-008", name:"Caesarean Section (LSCS)", category:"Gynaecology", avgCharge:80000, fairPrice:20000 },
+      { cpt:"GY-009", name:"D&C (Dilatation & Curettage)", category:"Gynaecology", avgCharge:20000, fairPrice:6000 },
+      { cpt:"GY-010", name:"Hysteroscopy (Diagnostic)", category:"Gynaecology", avgCharge:18000, fairPrice:5500 },
+      { cpt:"GY-011", name:"Laparoscopy (Diagnostic - Pelvic)", category:"Gynaecology", avgCharge:35000, fairPrice:11000 },
+      { cpt:"GY-012", name:"Hysterectomy (Total / Laparoscopic)", category:"Gynaecology", avgCharge:90000, fairPrice:28000 },
+      { cpt:"GY-013", name:"FSH / LH Hormones (Fertility Test)", category:"Gynaecology", avgCharge:1200, fairPrice:280 },
+      { cpt:"GY-014", name:"AMH (Anti-Mullerian Hormone - Egg Reserve)", category:"Gynaecology", avgCharge:2500, fairPrice:600 },
+      { cpt:"GY-015", name:"Mammography (Breast Cancer Screening)", category:"Gynaecology", avgCharge:3000, fairPrice:800 },
+      { cpt:"GY-016", name:"Breast Ultrasound", category:"Gynaecology", avgCharge:2500, fairPrice:600 },
+
+      // ── CANCER / ONCOLOGY ──
+      { cpt:"CA-001", name:"PSA (Prostate Specific Antigen - Prostate Cancer)", category:"Cancer Markers", avgCharge:800, fairPrice:160 },
+      { cpt:"CA-002", name:"CA-125 (Ovarian Cancer Marker)", category:"Cancer Markers", avgCharge:1500, fairPrice:350 },
+      { cpt:"CA-003", name:"CEA (Carcinoembryonic Antigen - Colon Cancer)", category:"Cancer Markers", avgCharge:1500, fairPrice:350 },
+      { cpt:"CA-004", name:"AFP (Alpha Fetoprotein - Liver Cancer)", category:"Cancer Markers", avgCharge:1200, fairPrice:280 },
+      { cpt:"CA-005", name:"CA-19.9 (Pancreatic Cancer Marker)", category:"Cancer Markers", avgCharge:2000, fairPrice:500 },
+      { cpt:"CA-006", name:"BRCA1 & BRCA2 Gene Test (Breast Cancer)", category:"Cancer Markers", avgCharge:18000, fairPrice:6000 },
+      { cpt:"CA-007", name:"Bone Marrow Biopsy (Haematology Cancer)", category:"Cancer Markers", avgCharge:12000, fairPrice:3500 },
+      { cpt:"CA-008", name:"PET-CT Scan (Cancer Staging)", category:"Cancer Markers", avgCharge:25000, fairPrice:8000 },
+      { cpt:"CA-009", name:"Chemotherapy Session (Day Care - Per Cycle)", category:"Cancer Markers", avgCharge:30000, fairPrice:10000 },
+      { cpt:"CA-010", name:"Radiation Therapy (Per Fraction)", category:"Cancer Markers", avgCharge:5000, fairPrice:1500 },
+
+      // ── IMAGING ──
+      { cpt:"IMG-001", name:"MRI Brain (Without Contrast)", category:"Imaging", avgCharge:12000, fairPrice:3200 },
+      { cpt:"IMG-002", name:"MRI Brain (With Contrast)", category:"Imaging", avgCharge:16000, fairPrice:4500 },
+      { cpt:"IMG-003", name:"MRI Spine - Lumbar (Without Contrast)", category:"Imaging", avgCharge:11000, fairPrice:3000 },
+      { cpt:"IMG-004", name:"MRI Whole Spine (Cervical + Dorsal + Lumbar)", category:"Imaging", avgCharge:28000, fairPrice:8000 },
+      { cpt:"IMG-005", name:"CT Scan Head (Without Contrast)", category:"Imaging", avgCharge:7500, fairPrice:1800 },
+      { cpt:"IMG-006", name:"CT Scan Abdomen & Pelvis (With Contrast)", category:"Imaging", avgCharge:14000, fairPrice:3500 },
+      { cpt:"IMG-007", name:"CT Angiography (Coronary / Brain / Aorta)", category:"Imaging", avgCharge:18000, fairPrice:5000 },
+      { cpt:"IMG-008", name:"PET-CT Scan (Full Body)", category:"Imaging", avgCharge:25000, fairPrice:8000 },
+      { cpt:"IMG-009", name:"Chest X-Ray (PA View)", category:"Imaging", avgCharge:800, fairPrice:150 },
+      { cpt:"IMG-010", name:"Ultrasound Abdomen (Complete)", category:"Imaging", avgCharge:3500, fairPrice:900 },
+
+      // ── CONSULTATIONS ──
+      { cpt:"CON-001", name:"General Physician Consultation (OPD)", category:"Consultation", avgCharge:1000, fairPrice:300 },
+      { cpt:"CON-002", name:"Specialist Consultation (Senior Consultant)", category:"Consultation", avgCharge:2500, fairPrice:700 },
+      { cpt:"CON-003", name:"Super-Specialist Consultation (HoD / Professor)", category:"Consultation", avgCharge:4000, fairPrice:1200 },
+      { cpt:"CON-004", name:"Follow-up Consultation (Same Doctor, within 7 days)", category:"Consultation", avgCharge:600, fairPrice:150 },
+      { cpt:"CON-005", name:"Telemedicine / Video Consultation (Online)", category:"Consultation", avgCharge:800, fairPrice:200 },
+      { cpt:"CON-006", name:"ICU Doctor Visit Charges (Per Day)", category:"Consultation", avgCharge:3000, fairPrice:800 },
+
+      // ── WARD / HOSPITAL STAY ──
+      { cpt:"WD-001", name:"General Ward - Bed Charges (Per Day)", category:"Ward Charges", avgCharge:4000, fairPrice:1000 },
+      { cpt:"WD-002", name:"Semi-Private Room (Per Day)", category:"Ward Charges", avgCharge:7000, fairPrice:2000 },
+      { cpt:"WD-003", name:"Private Room (Per Day)", category:"Ward Charges", avgCharge:12000, fairPrice:4000 },
+      { cpt:"WD-004", name:"Deluxe / Suite Room (Per Day)", category:"Ward Charges", avgCharge:20000, fairPrice:7000 },
+      { cpt:"WD-005", name:"Nursing Charges (Per Day - General Ward)", category:"Ward Charges", avgCharge:2500, fairPrice:600 },
+      { cpt:"WD-006", name:"Diet Charges (Per Day - Hospital Meal)", category:"Ward Charges", avgCharge:1500, fairPrice:400 },
+      { cpt:"WD-007", name:"Attendant / Bystander Charges (Per Day)", category:"Ward Charges", avgCharge:1000, fairPrice:250 },
+
+      // ── MINOR PROCEDURES ──
+      { cpt:"PR-001", name:"IV Cannula Insertion & IV Line Setup", category:"Procedures", avgCharge:1200, fairPrice:250 },
+      { cpt:"PR-002", name:"IV Injection (Per Injection Admin Charge)", category:"Procedures", avgCharge:200, fairPrice:40 },
+      { cpt:"PR-003", name:"IM Injection (Intramuscular)", category:"Procedures", avgCharge:150, fairPrice:30 },
+      { cpt:"PR-004", name:"Nebulisation Treatment (Single Session)", category:"Procedures", avgCharge:800, fairPrice:150 },
+      { cpt:"PR-005", name:"Suturing / Wound Closure (Small up to 5 cm)", category:"Procedures", avgCharge:3500, fairPrice:800 },
+      { cpt:"PR-006", name:"Suturing / Wound Closure (Large 5-10 cm)", category:"Procedures", avgCharge:6000, fairPrice:1500 },
+      { cpt:"PR-007", name:"Foley Catheter Insertion (Urinary)", category:"Procedures", avgCharge:1500, fairPrice:350 },
+      { cpt:"PR-008", name:"Ryles Tube / Nasogastric Tube Insertion", category:"Procedures", avgCharge:1200, fairPrice:280 },
+      { cpt:"PR-009", name:"Dressing (Minor Wound / Post-Op Dressing)", category:"Procedures", avgCharge:500, fairPrice:100 },
+      { cpt:"PR-010", name:"Blood Transfusion (Per Unit - Whole Blood)", category:"Procedures", avgCharge:3000, fairPrice:850 },
+      { cpt:"PR-011", name:"Oxygen Therapy (Per Day - Nasal Prongs)", category:"Procedures", avgCharge:2000, fairPrice:500 },
+      { cpt:"PR-012", name:"ECG Monitoring (Per Day - Continuous)", category:"Procedures", avgCharge:2000, fairPrice:500 },
+      { cpt:"PR-013", name:"Pulse Oximetry Monitoring (Per Day)", category:"Procedures", avgCharge:800, fairPrice:200 },
+      { cpt:"PR-014", name:"Physiotherapy Session (Per Session)", category:"Procedures", avgCharge:800, fairPrice:180 },
+
+      // ── PAEDIATRICS / CHILD ──
+      { cpt:"PD-001", name:"Paediatrician Consultation (Child OPD)", category:"Paediatrics", avgCharge:800, fairPrice:200 },
+      { cpt:"PD-002", name:"Neonatal Examination (Newborn Check)", category:"Paediatrics", avgCharge:1200, fairPrice:300 },
+      { cpt:"PD-003", name:"Vaccination - BCG (TB Vaccine)", category:"Paediatrics", avgCharge:200, fairPrice:50 },
+      { cpt:"PD-004", name:"Vaccination - DPT / Pentavalent", category:"Paediatrics", avgCharge:500, fairPrice:120 },
+      { cpt:"PD-005", name:"Vaccination - MMR (Measles Mumps Rubella)", category:"Paediatrics", avgCharge:600, fairPrice:150 },
+      { cpt:"PD-006", name:"Vaccination - Typhoid (Typbar TCV)", category:"Paediatrics", avgCharge:700, fairPrice:180 },
+      { cpt:"PD-007", name:"Vaccination - Hepatitis B (HBV)", category:"Paediatrics", avgCharge:400, fairPrice:90 },
+      { cpt:"PD-008", name:"Vaccination - Chickenpox (Varicella)", category:"Paediatrics", avgCharge:1800, fairPrice:500 },
+      { cpt:"PD-009", name:"Vaccination - Flu / Influenza (Annual)", category:"Paediatrics", avgCharge:1000, fairPrice:280 },
+      { cpt:"PD-010", name:"Growth & Development Assessment (Child)", category:"Paediatrics", avgCharge:1000, fairPrice:250 },
+
+      // ── DENTAL ──
+      { cpt:"DN-001", name:"Dental Consultation & Examination (OPD)", category:"Dental", avgCharge:500, fairPrice:120 },
+      { cpt:"DN-002", name:"Dental X-Ray (OPG / Panoramic)", category:"Dental", avgCharge:1200, fairPrice:280 },
+      { cpt:"DN-003", name:"Tooth Extraction (Simple)", category:"Dental", avgCharge:1000, fairPrice:250 },
+      { cpt:"DN-004", name:"Tooth Extraction (Surgical / Impacted Wisdom)", category:"Dental", avgCharge:4000, fairPrice:1200 },
+      { cpt:"DN-005", name:"Root Canal Treatment (RCT - Per Tooth)", category:"Dental", avgCharge:8000, fairPrice:2500 },
+      { cpt:"DN-006", name:"Dental Crown (Per Tooth - PFM)", category:"Dental", avgCharge:7000, fairPrice:2200 },
+      { cpt:"DN-007", name:"Teeth Scaling & Polishing (Full Mouth Cleaning)", category:"Dental", avgCharge:2000, fairPrice:500 },
+      { cpt:"DN-008", name:"Dental Implant (Single Tooth)", category:"Dental", avgCharge:35000, fairPrice:12000 },
+    ];
+
+    const appState = { addedItems: [], selectedProcedure: null, activeTab: 'letter' };
+
+    const searchInput = document.getElementById('search-input');
+    const chargeInput = document.getElementById('charge-input');
+    const autocompleteResults = document.getElementById('autocomplete-results');
+    const detailsBox = document.getElementById('procedure-details-box');
+
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) { autocompleteResults.style.display = 'none'; return; }
+      const matches = cptDatabase.filter(i => i.cpt.toLowerCase().includes(q) || i.name.toLowerCase().includes(q)).slice(0, 6);
+      if (!matches.length) {
+        autocompleteResults.innerHTML = `<div class="autocomplete-item" style="color:var(--text-dim);cursor:default;">No procedures found. Try another keyword.</div>`;
+      } else {
+        autocompleteResults.innerHTML = matches.map(i => `<div class="autocomplete-item" onclick="selectItem('${i.cpt}')"><strong>${i.cpt}</strong> — ${i.name.split(' - ')[0]}</div>`).join('');
+      }
+      autocompleteResults.style.display = 'block';
+    });
+    document.addEventListener('click', (e) => {
+      if (!searchInput.contains(e.target) && !autocompleteResults.contains(e.target)) autocompleteResults.style.display = 'none';
+    });
+
+    window.selectItem = function(code) {
+      const s = cptDatabase.find(i => i.cpt === code);
+      if (!s) return;
+      appState.selectedProcedure = s;
+      searchInput.value = `${s.cpt} — ${s.name.split(' - ')[0]}`;
+      autocompleteResults.style.display = 'none';
+      document.getElementById('box-cpt').textContent = s.cpt;
+      const cat = s.category.toLowerCase();
+      const bc = document.getElementById('box-category');
+      bc.textContent = s.category;
+      bc.className = `badge ${cat === 'emergency' || cat === 'surgery' ? 'badge-critical' : cat === 'imaging' ? 'badge-moderate' : 'badge-fair'}`;
+      document.getElementById('box-name').textContent = s.name;
+      document.getElementById('box-avg').textContent = formatINR(s.avgCharge);
+      document.getElementById('box-fair').textContent = formatINR(s.fairPrice);
+      detailsBox.style.display = 'block';
+    };
+
+    document.getElementById('btn-add-item').addEventListener('click', () => {
+      const billed = parseFloat(chargeInput.value);
+      if (!appState.selectedProcedure) { alert('Please search and select a procedure first.'); return; }
+      if (isNaN(billed) || billed <= 0) { alert('Please enter a valid billed amount.'); return; }
+      appState.addedItems.push({ id: Date.now(), procedure: appState.selectedProcedure, billed, fair: appState.selectedProcedure.fairPrice });
+      searchInput.value = ''; chargeInput.value = '';
+      detailsBox.style.display = 'none'; appState.selectedProcedure = null;
+      updateDashboard(); triggerToast('Line item added to your audit!');
+    });
+
+    window.removeItem = function(id) {
+      appState.addedItems = appState.addedItems.filter(i => i.id !== id);
+      updateDashboard(); triggerToast('Line item removed');
+    };
+
+    function updateDashboard() {
+      let totalBilled = 0, totalFair = 0;
+      appState.addedItems.forEach(i => {
+        totalBilled += i.billed;
+        totalFair  += i.fair;
+      });
+
+      const savingsEl   = document.getElementById('summary-savings');
+      const savingsHint = document.getElementById('savings-hint');
+      const savingsCard = document.getElementById('savings-card');
+
+      document.getElementById('summary-billed').textContent = appState.addedItems.length ? formatINR(totalBilled) : '—';
+      document.getElementById('summary-fair').textContent   = appState.addedItems.length ? formatINR(totalFair)   : '—';
+
+      // Calculate how much over OR under CGHS rate
+      let totalOvercharge = 0;   // hospital charged MORE than CGHS
+      let totalUndercharge = 0;  // hospital charged LESS than CGHS (patient saved)
+
+      appState.addedItems.forEach(i => {
+        const diff = i.billed - i.fair;
+        if (diff > 0) totalOvercharge  += diff;
+        else          totalUndercharge += Math.abs(diff);
+      });
+
+      const savingsLabel = document.getElementById('savings-label');
+
+      if (!appState.addedItems.length) {
+        // No items yet
+        savingsLabel.textContent    = 'ESTIMATED SAVINGS POTENTIAL';
+        savingsLabel.style.color    = 'var(--accent-cyan)';
+        savingsEl.textContent       = '—';
+        savingsEl.style.color       = 'var(--accent-cyan)';
+        savingsHint.textContent     = 'Add items to see your result';
+        savingsHint.style.color     = 'var(--text-dim)';
+        savingsCard.style.borderColor = 'rgba(75,255,192,0.15)';
+        savingsCard.style.background  = 'rgba(75,255,192,0.05)';
+        savingsCard.style.boxShadow   = 'none';
+
+      } else if (totalOvercharge > 0 && totalUndercharge === 0) {
+        // Pure overcharge — hospital ne zyada liya
+        savingsLabel.textContent    = '🔴 OVERCHARGED — NEGOTIATE NOW';
+        savingsLabel.style.color    = '#f87171';
+        savingsEl.textContent       = formatINR(totalOvercharge);
+        savingsEl.style.color       = '#f87171';
+        savingsHint.textContent     = 'You were overcharged by this amount. Negotiation letter ready below ↓';
+        savingsHint.style.color     = '#f87171';
+        savingsCard.style.borderColor = 'rgba(239,68,68,0.35)';
+        savingsCard.style.background  = 'rgba(239,68,68,0.06)';
+        savingsCard.style.boxShadow   = '0 0 20px rgba(239,68,68,0.1)';
+
+      } else if (totalOvercharge > 0 && totalUndercharge > 0) {
+        // Mixed — kuch overcharge, kuch undercharge
+        savingsLabel.textContent    = '⚠️ MIXED — PARTIAL OVERCHARGE';
+        savingsLabel.style.color    = '#f59e0b';
+        savingsEl.textContent       = formatINR(totalOvercharge);
+        savingsEl.style.color       = '#f59e0b';
+        savingsHint.textContent     = `Overcharged on some items by ${formatINR(totalOvercharge)}. Dispute those items below ↓`;
+        savingsHint.style.color     = '#f59e0b';
+        savingsCard.style.borderColor = 'rgba(245,158,11,0.35)';
+        savingsCard.style.background  = 'rgba(245,158,11,0.06)';
+        savingsCard.style.boxShadow   = '0 0 20px rgba(245,158,11,0.1)';
+
+      } else if (totalUndercharge > 0 && totalOvercharge === 0) {
+        // Pure undercharge — hospital ne kam liya, patient ko faayda
+        savingsLabel.textContent    = '✅ YOU SAVED';
+        savingsLabel.style.color    = '#4bffc0';
+        savingsEl.textContent       = formatINR(totalUndercharge);
+        savingsEl.style.color       = '#4bffc0';
+        savingsHint.textContent     = 'Great news! Hospital charged LESS than CGHS rate. No negotiation needed.';
+        savingsHint.style.color     = '#4bffc0';
+        savingsCard.style.borderColor = 'rgba(75,255,192,0.4)';
+        savingsCard.style.background  = 'rgba(75,255,192,0.08)';
+        savingsCard.style.boxShadow   = '0 0 20px rgba(75,255,192,0.12)';
+
+      } else {
+        // Exactly equal to CGHS rate
+        savingsLabel.textContent    = '✅ FAIR PRICE';
+        savingsLabel.style.color    = '#4bffc0';
+        savingsEl.textContent       = '₹0';
+        savingsEl.style.color       = '#4bffc0';
+        savingsHint.textContent     = 'Hospital charged exactly the CGHS fair rate. Bill is correct.';
+        savingsHint.style.color     = '#4bffc0';
+        savingsCard.style.borderColor = 'rgba(75,255,192,0.3)';
+        savingsCard.style.background  = 'rgba(75,255,192,0.05)';
+        savingsCard.style.boxShadow   = 'none';
+      }
+
+      const container = document.getElementById('added-items-container');
+      const negSection = document.getElementById('negotiator-section');
+      const noOverchargeMsg = document.getElementById('no-overcharge-msg');
+
+      if (!appState.addedItems.length) {
+        container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>No procedures added yet.</p></div>`;
+        negSection.style.display = 'none';
+        if (noOverchargeMsg) noOverchargeMsg.style.display = 'none';
+        document.getElementById('chart-wrapper').innerHTML = `<div style="text-align:center;padding:2rem;color:var(--text-dim);font-size:0.85rem;">Add items to display audit chart</div>`;
+        return;
+      }
+
+      // Check if ANY item is overcharged (billed > CGHS fair rate)
+      const hasOvercharge = appState.addedItems.some(i => i.billed > i.fair);
+
+      // Show negotiation ONLY if there is an overcharge
+      if (hasOvercharge) {
+        negSection.style.display = 'grid';
+        if (noOverchargeMsg) noOverchargeMsg.style.display = 'none';
+      } else {
+        negSection.style.display = 'none';
+        if (noOverchargeMsg) noOverchargeMsg.style.display = 'flex';
+      }
+
+      container.innerHTML = appState.addedItems.map(item => {
+        const ratio = item.billed / item.fair;
+        let bc, bl;
+        if (ratio > 3)       { bc = 'badge-critical';  bl = 'Critical Overcharge'; }
+        else if (ratio > 1.5){ bc = 'badge-critical';  bl = 'Severe Overcharge'; }
+        else if (ratio > 1)  { bc = 'badge-moderate';  bl = 'Above CGHS Rate'; }
+        else if (ratio === 1){ bc = 'badge-fair';       bl = 'Fair Rate'; }
+        else                 { bc = 'badge-good';       bl = '✓ Good Deal'; }   // below CGHS — great!
+
+        return `<div class="bill-item-row">
+          <div class="bill-item-info">
+            <div><span class="bill-item-code">${item.procedure.cpt}</span><span class="badge ${bc}">${bl}</span></div>
+            <div class="bill-item-name">${item.procedure.name.split(' - ')[0]}</div>
+          </div>
+          <div class="bill-item-pricing">
+            <div class="price-group"><div class="price-lbl">Your Bill</div><div class="price-val billed-val">${formatINR(item.billed)}</div></div>
+            <div class="price-group"><div class="price-lbl">CGHS Fair</div><div class="price-val fair-val">${formatINR(item.fair)}</div></div>
+            <button class="btn-delete" onclick="removeItem(${item.id})">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+
+      renderChart();
+      if (hasOvercharge) generateDocuments();
+    }
+
+    function renderChart() {
+      const items = appState.addedItems;
+      const w = 500, h = Math.max(150, items.length * 45);
+      const pL = 90, pR = 60, pT = 20, pB = 20;
+      let maxVal = 100;
+      items.forEach(i => { if (i.billed > maxVal) maxVal = i.billed; if (i.fair > maxVal) maxVal = i.fair; });
+      maxVal *= 1.1;
+      let svg = `<svg class="custom-svg-chart" viewBox="0 0 ${w} ${h}"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7e6ff0"/><stop offset="100%" stop-color="#9f92ff"/></linearGradient><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4bffc0"/><stop offset="100%" stop-color="#00ffcc"/></linearGradient></defs>`;
+      const bS = (h - pT - pB) / items.length, bH = Math.max(6, bS * 0.3);
+      items.forEach((item, i) => {
+        const yC = pT + i * bS + bS / 2;
+        const bW = ((w - pL - pR) * item.billed) / maxVal;
+        const fW = ((w - pL - pR) * item.fair) / maxVal;
+        const yB = yC - bH - 2, yF = yC + 2;
+        svg += `<line x1="10" y1="${yC + bS/2}" x2="${w-10}" y2="${yC + bS/2}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <text x="${pL-15}" y="${yC+5}" fill="#898999" font-size="11" font-weight="700" text-anchor="end">${item.procedure.cpt}</text>
+          <rect x="${pL}" y="${yB}" width="${Math.max(3,bW)}" height="${bH}" rx="${bH/2}" fill="url(#g1)"/>
+          <text x="${pL+bW+8}" y="${yB+bH-1}" fill="#fff" font-size="9">₹${Math.round(item.billed).toLocaleString('en-IN')}</text>
+          <rect x="${pL}" y="${yF}" width="${Math.max(3,fW)}" height="${bH}" rx="${bH/2}" fill="url(#g2)"/>
+          <text x="${pL+fW+8}" y="${yF+bH-1}" fill="#4bffc0" font-size="9" font-weight="700">₹${Math.round(item.fair).toLocaleString('en-IN')}</text>`;
+      });
+      svg += `</svg>`;
+      document.getElementById('chart-wrapper').innerHTML = svg;
+    }
+
+    ['neg-patient-name','neg-hospital-name','neg-billing-address','neg-acct-num','neg-service-date','neg-dispute-type','neg-hardship-detail','neg-state'].forEach(id => {
+      document.getElementById(id).addEventListener('input', generateDocuments);
+    });
+    document.getElementById('neg-dispute-type').addEventListener('change', () => {
+      document.getElementById('hardship-details-group').style.display = document.getElementById('neg-dispute-type').value === 'hardship' ? 'block' : 'none';
+      generateDocuments();
+    });
+
+    window.switchNegotiatorTab = function(tab) {
+      appState.activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-content-letter').style.display = tab === 'letter' ? 'block' : 'none';
+      document.getElementById('tab-content-script').style.display = tab === 'script' ? 'block' : 'none';
+      document.querySelectorAll('.tab-btn')[tab === 'letter' ? 0 : 1].classList.add('active');
+    };
+
+    function generateDocuments() {
+      if (!appState.addedItems.length) return;
+      const name = document.getElementById('neg-patient-name').value || '[Patient Name]';
+      const hospital = document.getElementById('neg-hospital-name').value || '[Hospital Name]';
+      const address = document.getElementById('neg-billing-address').value || '[Address]';
+      const acct = document.getElementById('neg-acct-num').value || '[Bill No]';
+      const state = document.getElementById('neg-state').value || 'Maharashtra';
+      const rawDate = document.getElementById('neg-service-date').value;
+      const serviceDate = rawDate ? formatDate(rawDate) : '[Date of Service]';
+      const dtype = document.getElementById('neg-dispute-type').value;
+      const hardship = document.getElementById('neg-hardship-detail').value || '[describe hardship]';
+      const today = formatDate(new Date().toISOString().split('T')[0]);
+
+      let totalBilled = 0, totalFair = 0, tableRows = '';
+      appState.addedItems.forEach(i => {
+        totalBilled += i.billed; totalFair += i.fair;
+        tableRows += `<tr><td style="border:1px solid #cbd5e1;padding:8px;">${i.procedure.cpt}</td><td style="border:1px solid #cbd5e1;padding:8px;">${i.procedure.name.split(' - ')[0]}</td><td style="border:1px solid #cbd5e1;padding:8px;text-align:right;">${formatINR(i.billed)}</td><td style="border:1px solid #cbd5e1;padding:8px;text-align:right;color:#0284c7;">${formatINR(i.fair)}</td></tr>`;
+      });
+
+      const header = `<div style="margin-bottom:1.5rem;"><p><strong>Date:</strong> ${today}</p><br><p><strong>To,</strong><br>The Billing Manager / Patient Financial Services<br>${hospital}<br>${address}</p><br><p><strong>Sub: Dispute of Hospital Bill — Request for Bill Adjustment</strong></p><p><strong>Patient Name:</strong> ${name}</p><p><strong>Bill / Account Number:</strong> ${acct}</p><p><strong>Date of Service:</strong> ${serviceDate}</p></div>`;
+      const table = `<table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem;"><thead><tr style="background:#f1f5f9;"><th style="border:1px solid #cbd5e1;padding:8px;text-align:left;">Code</th><th style="border:1px solid #cbd5e1;padding:8px;text-align:left;">Procedure</th><th style="border:1px solid #cbd5e1;padding:8px;text-align:right;">Billed (₹)</th><th style="border:1px solid #cbd5e1;padding:8px;text-align:right;">CGHS Fair Rate (₹)</th></tr></thead><tbody>${tableRows}<tr style="font-weight:bold;background:#f8fafc;"><td colspan="2" style="border:1px solid #cbd5e1;padding:8px;text-align:right;">TOTAL:</td><td style="border:1px solid #cbd5e1;padding:8px;text-align:right;">${formatINR(totalBilled)}</td><td style="border:1px solid #cbd5e1;padding:8px;text-align:right;color:#0284c7;">${formatINR(totalFair)}</td></tr></tbody></table>`;
+      const footer = `<div style="margin-top:2rem;"><p>I request this account be placed on a formal dispute hold, preventing any collection action while the dispute is under review. Please respond in writing within <strong>30 days</strong> of receipt of this letter.</p><br><p>Thanking you,</p><br><p>___________________________</p><p><strong>${name}</strong></p></div>`;
+
+      let letter = '';
+      if (dtype === 'overcharge') {
+        letter = `${header}<p>Dear Sir / Madam,</p><br><p>I am writing to formally dispute the charges on the above-referenced bill for treatment on ${serviceDate}. I have compared the itemised bill against the <strong>CGHS Package Rates</strong> published by the Ministry of Health and Family Welfare (MoHFW), which serve as the national benchmark for fair medical pricing in India.</p>${table}<p>The total billed amount of <strong>${formatINR(totalBilled)}</strong> is significantly higher than the CGHS fair rate of <strong>${formatINR(totalFair)}</strong>. Under the <strong>Consumer Protection Act, 2019</strong>, excessive charges constitute a "deficiency in service" and are actionable before the District Consumer Disputes Redressal Commission.</p><p>I am prepared to settle this account immediately for <strong>${formatINR(totalFair)}</strong>. Please confirm the adjustment in writing, following which I will arrange payment within 7 working days.</p>${footer}`;
+      } else if (dtype === 'surprise') {
+        letter = `${header}<p>Dear Sir / Madam,</p><br><p>I am writing to dispute the charges on the above bill for services on ${serviceDate}. I believe certain charges were never disclosed to me prior to treatment and constitute <strong>unauthorised billing</strong> under the <strong>Clinical Establishments (Registration and Regulation) Act, 2010</strong> and the <strong>Consumer Protection Act, 2019</strong>.</p>${table}<p>The total billed amount of ${formatINR(totalBilled)} was never communicated to me in advance, nor did I provide informed financial consent. This constitutes an unfair trade practice under <strong>Section 2(47) of the Consumer Protection Act, 2019</strong>. In ${state}, the State Clinical Establishment Rules further mandate prior cost intimation.</p><p>I request you revise the bill to the CGHS benchmark rate of <strong>${formatINR(totalFair)}</strong>. If unresolved in 30 days, I will file a complaint with the <strong>National Consumer Helpline (1800-11-4000)</strong> and the District Consumer Forum.</p>${footer}`;
+      } else if (dtype === 'hardship') {
+        letter = `${header}<p>Dear Sir / Madam,</p><br><p>I am writing to request financial assistance on the above bill. I am currently facing severe financial hardship due to <em>${hardship}</em> and am unable to pay the full billed amount of ${formatINR(totalBilled)}.</p>${table}<p>I am aware that hospitals empanelled under <strong>Ayushman Bharat (PM-JAY)</strong> and those registered under the <strong>Clinical Establishments Act, 2010</strong> are expected to offer some form of financial assistance to patients who are genuinely unable to afford treatment.</p><p>I request that your hospital's financial assistance programme be applied to my account. I am prepared to settle the account for the CGHS fair rate of <strong>${formatINR(totalFair)}</strong> immediately upon approval. Please also send me your financial assistance application form.</p>${footer}`;
+      } else {
+        letter = `${header}<p>Dear Sir / Madam,</p><br><p>I am writing to request a self-pay discount on my bill for services on ${serviceDate}. I was uninsured at the time of treatment and have been billed the full rack rate of ${formatINR(totalBilled)}, which is significantly higher than what insured or government-scheme patients are charged for the same procedures.</p>${table}<p>The CGHS published rate for these procedures is <strong>${formatINR(totalFair)}</strong>. I request that my bill be adjusted to this rate. I am ready to make a full and final lump-sum payment of <strong>${formatINR(totalFair)}</strong> within 7 days of receiving written confirmation that this constitutes complete settlement of the account.</p>${footer}`;
+      }
+      document.getElementById('letter-document').innerHTML = letter;
+
+      document.getElementById('phone-script-list').innerHTML = `
+        <div class="script-step">
+          <span class="step-badge">Step 1 — Preparation</span>
+          <div class="step-prompt">Request Your Itemised Bill</div>
+          <div class="step-text">"Namaskar. Main apna detailed itemised bill maangna chahta/chahti hoon — jisme har procedure ka code aur charge alag-alag likha ho. Clinical Establishments Act ke under yeh mera haq hai. Jab tak mujhe itemised bill nahi milta, main payment ke baare mein baat nahi kar sakta/sakti."</div>
+          <div class="step-tips"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Write down the representative's name and request a payment hold on the account.</div>
+        </div>
+        <div class="script-step">
+          <span class="step-badge">Step 2 — The Offer</span>
+          <div class="step-prompt">Deliver Your Settlement Offer</div>
+          <div class="step-text">"Maine apna bill CGHS package rates — Ministry of Health ke official rates — se compare kiya hai. Mera total bill ${formatINR(totalBilled)} hai, lekin inhi procedures ki CGHS fair rate ${formatINR(totalFair)} hai. Main abhi ${formatINR(totalFair)} ek baar mein full payment karne ke liye taiyaar hoon, agar aap remaining balance write off kar dein."</div>
+          <div class="step-tips"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Immediate full payment is your strongest card — always offer it upfront.</div>
+        </div>
+        <h3 class="rebuttal-title">Rebuttal Helper — Click to Handle Objections</h3>
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+          <div class="accordion-header"><span>They say: "Hum apni rates nahi badal sakte."</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="accordion-content">
+            <div class="rebuttal-quote">"Main samajhta/samajhti hoon, lekin India ke consumer courts ne kai cases mein CGHS rates ko 'reasonable value' ka standard mana hai. Main aapko wahi offer kar raha/rahi hoon. Agar aap help nahi kar sakte, toh kya aap mujhe Billing Manager ya Hospital Administrator se milwa sakte hain?"</div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;"><strong>Tip:</strong> Escalating to a supervisor often unlocks a 20–40% adjustment unavailable to front-line staff.</p>
+          </div>
+        </div>
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+          <div class="accordion-header"><span>They say: "Full payment karo warna recovery agency ko denge."</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="accordion-content">
+            <div class="rebuttal-quote">"Consumer Protection Act 2019 ke under, active formal dispute mein hone wale bill ko recovery agency ko bhejne ka koi adhikar nahi hai. Maine Speed Post se formal dispute letter bheja hai. Agar recovery action hua, toh yeh harassment maana jayega aur main District Consumer Forum mein complaint file karunga/karungi."</div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;"><strong>Tip:</strong> Mentioning the Consumer Protection Act 2019 by name signals you know your rights.</p>
+          </div>
+        </div>
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+          <div class="accordion-header"><span>They say: "EMI pe le lo — monthly installments mein pay karo."</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="accordion-content">
+            <div class="rebuttal-quote">"Main inflated amount par EMI nahi chahunga/chahungi. Pehle principal amount CGHS rate par correct hona chahiye. Main abhi ${formatINR(totalFair)} ek baar mein full settlement ke taur par de sakta/sakti hoon. Agar yeh possible nahi, toh please mujhe aapke hospital ki financial assistance application form dijiye — Clinical Establishments Act ke under."</div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;"><strong>Tip:</strong> Asking for the financial assistance form legally requires them to pause collection efforts.</p>
+          </div>
+        </div>
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+          <div class="accordion-header"><span>They say: "CGHS rates sirf government employees ke liye hain."</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="accordion-content">
+            <div class="rebuttal-quote">"Bilkul — CGHS rates empanelled hospitals par government beneficiaries ke liye mandatory hain. Lekin courts aur consumer forums CGHS rates ko private hospitals ke against cases mein 'reasonable market value' ke reference ke taur par use karte hain. Agar aap mante hain ki aapki rates fair hain, toh main khushi se District Consumer Forum ko decide karne dunga/dungi."</div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;"><strong>Tip:</strong> Consumer forum complaint is free to file and no lawyer is needed — mention this calmly.</p>
+          </div>
+        </div>`;
+    }
+
+    window.toggleAccordion = function(el) { el.classList.toggle('active'); };
+
+    function formatINR(amount) { return '₹' + Math.round(amount).toLocaleString('en-IN'); }
+    function formatDate(str) {
+      const p = str.split('-');
+      if (p.length === 3) return new Date(p[0], p[1]-1, p[2]).toLocaleDateString('en-IN', { year:'numeric', month:'long', day:'numeric' });
+      return str;
+    }
+    function triggerToast(msg) {
+      document.getElementById('toast-text').textContent = msg;
+      const t = document.getElementById('toast-notify');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+    window.copyLetterText = function() {
+      navigator.clipboard.writeText(document.getElementById('letter-document').innerText).then(() => triggerToast('Letter copied to clipboard!')).catch(() => {});
+    };
+  </script>
+</body>
+</html>

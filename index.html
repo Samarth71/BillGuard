@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BillGuard India - AI Medical Bill Auditor & Negotiator</title>
   <meta name="description" content="Audit your medical bills using procedure codes against national fair-pricing benchmarks. Generate formal dispute letters and phone scripts to fight hospital overcharges in India.">
+  <link rel="icon" type="image/png" href="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAqADEDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAAcDBQgBAgb/xAAyEAABAgUCAwYEBwEAAAAAAAABAgMABAUGEQchEiIxCCNBUWGBExRCoRYyQ1JicXKR/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAEEBQID/8QAJhEAAgEDAQcFAAAAAAAAAAAAAAECAwQRIQUSEzFBUXEVIkLR8P/aAAwDAQACEQMRAD8Ax1Ftbtt164pj4FEpM1PKBwotN8qf9K6J9yIqY0tNXJP2V2erfqdDalUTDjbLZLjfEBxhSlKwCObI8cxvWlvCq5ObworJ5Hyts6A1BbPzd11mXprCRxLaYIWsD+SzhKfbijlz6A1Jtozdq1iXqbChxIafIbWR/FYylX9nhhX3Nddx3K98St1ianBnIbUvDaT6IGEj2EW9mv6hUShTFyW45UZekyywH3EqBZznxQrZXXc4OM74iiNS0l7FSeO+dfoZRXDbtdt6Y+XrdKm5FZOEl1shKv8AKuivYmKqNK/iOevTs7Vyq1tmVVMoQ4ju2+FJKCkpVgk4OfKM1RPd28aLi4PKksgEEEESCCH5f/f9mC3nGuZLZl+I+WApJ++0IOHxoPV6TdNkT+mddcwpaVrlMkZUgniITn6kLyv39DGhs9qUp0+sk0vIz1pjZ2nl/wBjyMo225J1mnrSqfU2vDzgzvnOxQodDjlP3rdatRZBNNNh2Ylpmky6QzMvM/lWB+mg/tz1V9R9Mkry87artiXC9TptTzJUlQamWiUomGjtkEeB8R4dDHjT+0KredebplNbKUDCpiYUnkYR+4+vkPE/9jt3FTd4EIYk9Hjm/wB1AbVl9x2Wq247ypcL/AfPKkpH32hBw9tfKzSrbs+n6Z0FeQyELm8HPCgcwCsfUpXOf6HmIRMcbQaUo018Uk/IBBBBGeIIlk5mYk5pqblHnGH2VhbbjasKQobgg+BiKCHyAftr6o2tedETbupcowl3YImyjDaz04sjdpfqNuvQbRy69U7Ys+iKtzTOUY+IMhU4Ed2g9CoFW7i/U7dOvSEHBF/qVbdxpnv1x5GSzUw/NzLs1MvLefdWVuOLVlS1E5JJPUxFBBEAgggghAf/2Q==">
+  <link rel="apple-touch-icon" href="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAqADEDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAAcDBQgBAgb/xAAyEAABAgUCAwYEBwEAAAAAAAABAgMABAUGEQchEiIxCCNBUWGBExRCoRYyQ1JicXKR/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAEEBQID/8QAJhEAAgEDAQcFAAAAAAAAAAAAAAECAwQRIQUSEzFBUXEVIkLR8P/aAAwDAQACEQMRAD8Ax1Ftbtt164pj4FEpM1PKBwotN8qf9K6J9yIqY0tNXJP2V2erfqdDalUTDjbLZLjfEBxhSlKwCObI8cxvWlvCq5ObworJ5Hyts6A1BbPzd11mXprCRxLaYIWsD+SzhKfbijlz6A1Jtozdq1iXqbChxIafIbWR/FYylX9nhhX3Nddx3K98St1ianBnIbUvDaT6IGEj2EW9mv6hUShTFyW45UZekyywH3EqBZznxQrZXXc4OM74iiNS0l7FSeO+dfoZRXDbtdt6Y+XrdKm5FZOEl1shKv8AKuivYmKqNK/iOevTs7Vyq1tmVVMoQ4ju2+FJKCkpVgk4OfKM1RPd28aLi4PKksgEEEESCCH5f/f9mC3nGuZLZl+I+WApJ++0IOHxoPV6TdNkT+mddcwpaVrlMkZUgniITn6kLyv39DGhs9qUp0+sk0vIz1pjZ2nl/wBjyMo225J1mnrSqfU2vDzgzvnOxQodDjlP3rdatRZBNNNh2Ylpmky6QzMvM/lWB+mg/tz1V9R9Mkry87artiXC9TptTzJUlQamWiUomGjtkEeB8R4dDHjT+0KredebplNbKUDCpiYUnkYR+4+vkPE/9jt3FTd4EIYk9Hjm/wB1AbVl9x2Wq247ypcL/AfPKkpH32hBw9tfKzSrbs+n6Z0FeQyELm8HPCgcwCsfUpXOf6HmIRMcbQaUo018Uk/IBBBBGeIIlk5mYk5pqblHnGH2VhbbjasKQobgg+BiKCHyAftr6o2tedETbupcowl3YImyjDaz04sjdpfqNuvQbRy69U7Ys+iKtzTOUY+IMhU4Ed2g9CoFW7i/U7dOvSEHBF/qVbdxpnv1x5GSzUw/NzLs1MvLefdWVuOLVlS1E5JJPUxFBBEAgggghAf/2Q==">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -390,189 +392,232 @@
     }
 
 
-
-    /* ── MOBILE NAV ── */
-    @media (max-width: 640px) {
-      #hamburger { display: block !important; }
-      #main-nav {
-        display: none;
-        position: fixed; top: 60px; left: 0; right: 0;
-        background: rgba(0,3,25,0.97);
-        backdrop-filter: blur(16px);
-        border-bottom: 1px solid var(--border-dim);
-        flex-direction: column;
-        padding: 1rem;
-        gap: 0.25rem;
-        z-index: 99;
-      }
-      #main-nav.open { display: flex; animation: fadeInDown 0.25s ease; }
-      #main-nav a {
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        color: var(--text-muted);
-        border: 1px solid transparent;
-      }
-      #main-nav a:hover { background: rgba(126,111,240,0.08); border-color: var(--border-dim); color: #fff; }
-      #main-nav .btn-nav {
-        margin-top: 0.5rem;
-        text-align: center;
-        background: var(--primary);
-        color: #fff;
-        border-color: var(--primary);
-      }
+    /* ── CITY TIER SELECTOR ── */
+    .tier-selector-wrap {
+      background: rgba(126,111,240,0.04);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
     }
+    .tier-selector-title {
+      font-family: var(--font-display);
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-muted); margin-bottom: 0.9rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .tier-buttons {
+      display: flex; gap: 0.5rem; margin-bottom: 0.9rem; flex-wrap: wrap;
+    }
+    .tier-btn {
+      flex: 1; min-width: 80px;
+      padding: 0.55rem 0.5rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-dim);
+      background: var(--bg-input);
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .tier-btn:hover { border-color: var(--primary-light); color: var(--text-main); }
+    .tier-btn.active-t1 { background: rgba(126,111,240,0.15); border-color: var(--primary); color: var(--primary-light); }
+    .tier-btn.active-t2 { background: rgba(245,158,11,0.12); border-color: #f59e0b; color: #f59e0b; }
+    .tier-btn.active-t3 { background: rgba(16,185,129,0.12); border-color: #10b981; color: #10b981; }
+    .tier-btn .tier-icon { display: block; font-size: 1.1rem; margin-bottom: 0.15rem; }
+    .tier-btn .tier-name { display: block; font-size: 0.72rem; }
+    .city-select-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+    .tier-info-pill {
+      margin-top: 0.75rem;
+      padding: 0.45rem 0.85rem;
+      background: rgba(75,255,192,0.06);
+      border: 1px solid rgba(75,255,192,0.2);
+      border-radius: 8px;
+      font-size: 0.75rem; color: var(--accent-cyan);
+      display: none; align-items: center; gap: 0.5rem;
+    }
+    .tier-mult { margin-left: auto; font-weight: 800; font-size: 0.82rem; }
 
-    /* ── MICRO ANIMATIONS ── */
-    @keyframes fadeInUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes fadeInDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes scaleIn { from{opacity:0;transform:scale(0.93)} to{opacity:1;transform:scale(1)} }
-    @keyframes slideInLeft { from{opacity:0;transform:translateX(-24px)} to{opacity:1;transform:translateX(0)} }
-    @keyframes slideInRight { from{opacity:0;transform:translateX(24px)} to{opacity:1;transform:translateX(0)} }
-    @keyframes glowPulse { 0%,100%{box-shadow:0 0 8px rgba(126,111,240,0.2)} 50%{box-shadow:0 0 22px rgba(126,111,240,0.5)} }
-    @keyframes numberPop { 0%{transform:scale(1)} 40%{transform:scale(1.18)} 100%{transform:scale(1)} }
-    @keyframes badgeBounce { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-4px)} 70%{transform:translateY(-2px)} }
-    @keyframes floatBlob1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-20px,15px) scale(1.05)} }
-    @keyframes floatBlob2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(15px,-20px) scale(1.08)} }
+    /* ── LEGAL MODALS ── */
+    .legal-modal {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,3,25,0.88); backdrop-filter: blur(10px);
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    .legal-modal-box {
+      background: var(--bg-card); border: 1px solid var(--border-glow);
+      border-radius: 20px; max-width: 680px; width: 100%;
+      max-height: 85vh; overflow-y: auto; padding: 2.5rem;
+      position: relative; box-shadow: 0 24px 64px rgba(0,0,0,0.75);
+      animation: legalFadeIn 0.28s ease both;
+    }
+    @keyframes legalFadeIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+    .legal-modal-box h2 { font-family:var(--font-display); font-size:1.4rem; font-weight:800; margin-bottom:0.3rem; }
+    .modal-date { color:var(--text-muted); font-size:0.8rem; margin-bottom:1.25rem; padding-bottom:1rem; border-bottom:1px solid var(--border-dim); }
+    .modal-body { font-size:0.875rem; color:var(--text-muted); line-height:1.85; display:flex; flex-direction:column; gap:1.1rem; }
+    .modal-body h4 { color:#fff; font-family:var(--font-display); font-size:0.92rem; margin-bottom:0.2rem; }
+    .modal-body a { color:var(--accent-cyan); }
+    .modal-close-x {
+      position:absolute; top:1.2rem; right:1.2rem;
+      background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
+      color:#fff; width:32px; height:32px; border-radius:50%;
+      cursor:pointer; font-size:1rem; transition:background 0.2s;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .modal-close-x:hover { background:rgba(239,68,68,0.25); border-color:rgba(239,68,68,0.4); }
+    .modal-close-btn {
+      margin-top:1.75rem; width:100%; background:var(--primary);
+      border:none; color:#fff; padding:0.8rem; border-radius:10px;
+      font-family:var(--font-body); font-weight:600; cursor:pointer;
+      font-size:0.9rem; transition:background 0.2s;
+    }
+    .modal-close-btn:hover { background:var(--primary-light); }
+    @media(max-width:480px){ .legal-modal-box{padding:1.5rem;border-radius:14px;} }
 
-    header { animation: fadeInDown 0.45s ease both; }
-    .hero-section .badge-hero { animation: fadeInDown 0.5s ease both; }
-    .hero-title { animation: fadeInUp 0.55s 0.1s ease both; }
-    .hero-desc  { animation: fadeInUp 0.55s 0.2s ease both; }
-    .app-grid > .card:nth-child(1) { animation: slideInLeft  0.55s 0.15s ease both; }
-    .app-grid > .card:nth-child(2) { animation: slideInRight 0.55s 0.2s  ease both; }
+
+    /* ══════════════════════════════════
+       MICRO ANIMATIONS
+    ══════════════════════════════════ */
+
+    /* Keyframes */
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeInDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-22px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(22px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes scaleIn    { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
+    @keyframes glowPulse  { 0%,100%{box-shadow:0 0 6px rgba(126,111,240,0.15)} 50%{box-shadow:0 0 20px rgba(126,111,240,0.45)} }
+    @keyframes floatBob   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    @keyframes badgePop   { 0%{transform:scale(1)} 40%{transform:scale(1.2)} 100%{transform:scale(1)} }
+    @keyframes shimmerBar {
+      0%   { background-position: -600px 0; }
+      100% { background-position: 600px 0; }
+    }
+    @keyframes rippleAnim { to{transform:scale(2.8);opacity:0} }
+    @keyframes blob1Float { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-18px,14px) scale(1.06)} }
+    @keyframes blob2Float { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(14px,-18px) scale(1.08)} }
+    @keyframes fairMsgIn  { 0%{opacity:0;transform:scale(0.9) translateY(10px)} 60%{transform:scale(1.02) translateY(-2px)} 100%{opacity:1;transform:scale(1) translateY(0)} }
+
+    /* Glow blobs float */
+    .blob-1 { animation: blob1Float 14s ease-in-out infinite; }
+    .blob-2 { animation: blob2Float 17s ease-in-out infinite; }
+
+    /* Header + Hero entrance */
+    header { animation: fadeInDown 0.4s ease both; }
+    .badge-hero { animation: fadeInDown 0.5s 0.05s ease both; }
+    .hero-title  { animation: fadeInUp  0.55s 0.1s  ease both; }
+    .hero-desc   { animation: fadeInUp  0.55s 0.18s ease both; }
+
+    /* Cards slide in */
+    .app-grid > section:nth-child(1) { animation: slideInLeft  0.5s 0.12s ease both; }
+    .app-grid > section:nth-child(2) { animation: slideInRight 0.5s 0.18s ease both; }
+
+    /* Card hover lift */
     .card { transition: border-color 0.25s, box-shadow 0.3s, transform 0.25s; }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,3,25,0.8), 0 0 0 1px rgba(126,111,240,0.15); }
-    .stat-val { transition: color 0.35s, text-shadow 0.35s; }
-    .bill-item-row { animation: fadeInUp 0.3s ease both; transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s; }
-    .bill-item-row:hover { transform: translateX(4px); box-shadow: -3px 0 0 var(--primary); }
-    .btn { transition: background 0.2s, transform 0.15s, box-shadow 0.2s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 18px 50px rgba(0,3,25,0.85), 0 0 0 1px rgba(126,111,240,0.18); }
+
+    /* Buttons */
+    .btn { transition: background 0.2s, transform 0.15s, box-shadow 0.2s; position:relative; overflow:hidden; }
     .btn:active { transform: scale(0.97) translateY(1px); }
-    .form-input:focus, .form-select:focus { animation: glowPulse 2s ease infinite; }
-    .autocomplete-list { transform-origin: top; animation: scaleIn 0.2s ease; }
-    .tab-btn { transition: background 0.25s, color 0.2s, box-shadow 0.25s; }
-    #negotiator-section { animation: fadeInUp 0.45s ease both; }
-    .rights-card { transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
-    .rights-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,3,25,0.6); border-color: rgba(126,111,240,0.3); }
-    .timeline-card { transition: border-color 0.25s, transform 0.25s; }
-    .timeline-card:hover { transform: translateY(-3px); }
-    .check-text { transition: color 0.3s, opacity 0.3s; }
-    .toast { transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.35s; }
+    .btn-secondary:active { transform: scale(0.97); }
+
+    /* Input glow on focus */
+    .form-input:focus, .form-select:focus { animation: glowPulse 2.2s ease infinite; }
+
+    /* Bill item rows */
+    .bill-item-row {
+      animation: fadeInUp 0.28s ease both;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .bill-item-row:hover { transform: translateX(5px); box-shadow: -3px 0 0 var(--primary); }
+
+    /* Delete button spin */
     .btn-delete { transition: color 0.2s, transform 0.2s; }
-    .btn-delete:hover { transform: scale(1.15) rotate(8deg); }
-    #savings-card { transition: background 0.5s, border-color 0.5s, box-shadow 0.5s; }
+    .btn-delete:hover { color: var(--danger); transform: scale(1.15) rotate(9deg); }
+
+    /* Badges */
+    .badge { transition: transform 0.15s; }
+    .badge:hover { animation: badgePop 0.35s ease; }
+
+    /* Tabs */
+    .tab-btn { transition: background 0.22s, color 0.2s, box-shadow 0.22s; }
+
+    /* Stat cards */
+    .stat-card { transition: border-color 0.3s, background 0.3s; }
+    .stat-val   { transition: color 0.4s, text-shadow 0.4s; }
+
+    /* Savings card smooth color change */
+    #savings-card   { transition: background 0.5s, border-color 0.5s, box-shadow 0.5s; }
     #summary-savings { transition: color 0.4s; }
+
+    /* Fair bill message special entrance */
+    #no-overcharge-msg { animation: fairMsgIn 0.55s ease both; }
+
+    /* Rights cards */
+    .rights-card { transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+    .rights-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,3,25,0.7); border-color: rgba(126,111,240,0.35); }
+
+    /* Timeline cards */
+    .timeline-card { transition: border-color 0.22s, transform 0.22s; }
+    .timeline-card:hover { transform: translateY(-3px); border-color: rgba(75,255,192,0.35); }
+
+    /* Checklist */
+    .check-text { transition: color 0.3s, opacity 0.3s; }
+
+    /* Accordion */
+    .accordion-header { transition: background 0.18s; }
+    .accordion-header svg { transition: transform 0.3s; }
+
+    /* Tier buttons */
+    .tier-btn { transition: all 0.22s; }
+    .tier-btn:hover { transform: translateY(-2px); }
+
+    /* Autocomplete */
+    .autocomplete-list { transform-origin: top; animation: scaleIn 0.18s ease; }
+
+    /* Document card */
+    .document-card { animation: scaleIn 0.32s ease both; }
+
+    /* Negotiator section */
+    #negotiator-section { animation: fadeInUp 0.4s ease both; }
+
+    /* No overcharge msg */
+    #no-overcharge-msg { animation: fairMsgIn 0.55s ease both; }
+
+    /* Toast */
+    .toast { transition: transform 0.32s cubic-bezier(0.16,1,0.3,1), opacity 0.32s; }
+
+    /* Logo */
     .logo { transition: opacity 0.2s; }
-    .logo:hover { opacity: 0.85; }
-    .document-card { animation: scaleIn 0.35s ease both; }
-    #no-overcharge-msg { animation: scaleIn 0.4s ease both; }
-    .blob-1 { animation: floatBlob1 12s ease-in-out infinite; }
-    .blob-2 { animation: floatBlob2 15s ease-in-out infinite; }
-    .badge { transition: transform 0.2s; }
-    .badge:hover { animation: badgeBounce 0.4s ease; }
-    .reveal-on-scroll { opacity:0; transform:translateY(32px); transition:opacity 0.6s ease, transform 0.6s ease; }
-    .reveal-on-scroll.visible { opacity:1; transform:translateY(0); }
-    footer a { transition: color 0.2s; }
-    #terms-modal > div { animation: scaleIn 0.3s ease both; }
+    .logo:hover { opacity: 0.82; }
 
-    /* ── FULLY RESPONSIVE ── */
+    /* Scroll reveal */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* Large Desktop 1400px+ */
-    @media (min-width: 1400px) {
-      main { max-width: 1320px; }
-      .hero-title { font-size: 4.2rem; }
+    /* Skeleton shimmer */
+    .skeleton-shimmer {
+      background: linear-gradient(90deg,
+        rgba(255,255,255,0.03) 25%,
+        rgba(126,111,240,0.12) 50%,
+        rgba(255,255,255,0.03) 75%);
+      background-size: 600px 100%;
+      animation: shimmerBar 1.5s infinite;
+      border-radius: 8px;
     }
 
-    /* Desktop 1200px */
-    @media (max-width: 1200px) {
-      main { padding: 2rem 1.5rem; }
-      .nav-container { padding: 1rem 1.5rem; }
-    }
+    /* Tier info pill animation */
+    .tier-info-pill { transition: opacity 0.3s, transform 0.3s; }
 
-    /* Tablet Landscape 1024px */
-    @media (max-width: 1024px) {
-      .app-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-      .negotiator-section { grid-template-columns: 1fr; padding: 2rem; gap: 2rem; }
-      .negotiator-inputs { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border-dim); padding-bottom: 1.5rem; }
-      .rights-grid { grid-template-columns: 1fr 1fr; }
-      .hero-title { font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: -1px; }
-      nav a:not(.btn-nav) { display: none; }
-    }
+    /* Legal modal */
+    .legal-modal-box { animation: scaleIn 0.28s ease both; }
 
-    /* Tablet Portrait 768px */
-    @media (max-width: 768px) {
-      main { padding: 1.5rem 1rem; }
-      .nav-container { padding: 1rem; }
-      .hero-section { padding: 4rem 1rem 2.5rem; }
-      .hero-title { font-size: clamp(1.8rem, 6vw, 2.6rem); letter-spacing: -0.5px; }
-      .hero-desc { font-size: 0.95rem; }
-      .card { padding: 1.5rem; }
-      .audit-summary { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-      .rights-grid { grid-template-columns: 1fr; gap: 1rem; }
-      .timeline-container { grid-template-columns: 1fr; }
-      .negotiator-section { padding: 1.5rem; }
-      .tabs-header { flex-direction: column; gap: 0.3rem; }
-      .tab-btn { padding: 0.6rem; font-size: 0.85rem; }
-      .document-card { padding: 1.5rem; font-size: 0.9rem; min-height: 300px; }
-      .doc-actions { flex-wrap: wrap; gap: 0.5rem; }
-      .doc-btn { font-size: 0.78rem; padding: 0.5rem 0.85rem; }
-      .accordion-header { font-size: 0.85rem; }
-      footer { padding: 2rem 1rem; }
-      footer > div > div:first-child { flex-direction: column; gap: 1.5rem; }
-      footer > div > div:last-child > div { flex-direction: column; gap: 1.5rem; }
-      .card-title { font-size: 1.1rem; }
-      .stat-val { font-size: 1.4rem; }
-      .bill-item-pricing { gap: 0.75rem; }
-    }
-
-    /* Mobile Large 480px */
-    @media (max-width: 480px) {
-      .nav-container { padding: 0.85rem 1rem; }
-      .logo { font-size: 1.1rem; }
-      .logo svg { width: 20px; height: 20px; }
-      .btn-nav { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
-      .hero-section { padding: 3.5rem 1rem 2rem; }
-      .hero-title { font-size: clamp(1.6rem, 7vw, 2.2rem); }
-      .badge-hero { font-size: 0.7rem; padding: 0.35rem 0.9rem; }
-      .hero-desc { font-size: 0.88rem; }
-      main { padding: 1rem 0.85rem; }
-      .card { padding: 1.25rem; border-radius: 14px; }
-      .card-title { font-size: 1rem; margin-bottom: 1.1rem; }
-      .audit-summary { grid-template-columns: 1fr; gap: 0.65rem; }
-      .audit-summary .stat-card:last-child { grid-column: span 1; }
-      .stat-val { font-size: 1.5rem; }
-      .form-input, .form-select, .form-textarea { padding: 0.75rem 0.9rem; font-size: 0.88rem; }
-      .btn { padding: 0.8rem 1.2rem; font-size: 0.88rem; }
-      .bill-item-row { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 0.9rem 1rem; }
-      .bill-item-pricing { width: 100%; justify-content: space-between; }
-      .price-group { text-align: left; }
-      .negotiator-section { padding: 1.25rem; border-radius: 14px; }
-      .document-card { padding: 1.25rem; font-size: 0.85rem; }
-      .doc-actions { gap: 0.4rem; }
-      .doc-btn { font-size: 0.75rem; padding: 0.45rem 0.7rem; }
-      .rights-card { padding: 1.25rem; border-radius: 12px; }
-      .rights-title { font-size: 0.95rem; }
-      .rights-desc { font-size: 0.8rem; }
-      .timeline-card { padding: 1.2rem; }
-      .check-text { font-size: 0.83rem; }
-      .accordion-header { font-size: 0.82rem; padding: 0.8rem; }
-      #no-overcharge-msg { flex-direction: column; text-align: center; padding: 1.5rem; }
-      footer { padding: 1.75rem 1rem; }
-      #terms-modal > div { padding: 1.5rem; margin: 0 1rem; }
-      .autocomplete-list { font-size: 0.85rem; }
-      .autocomplete-item { padding: 0.6rem 0.9rem; }
-      .chart-container { padding: 0.9rem; }
-    }
-
-    /* Mobile Small 360px */
-    @media (max-width: 360px) {
-      .hero-title { font-size: 1.5rem; }
-      .logo { font-size: 1rem; }
-      .btn-nav { display: none; }
-      .card { padding: 1rem; }
-      .stat-val { font-size: 1.3rem; }
-      .doc-btn span { display: none; }
-    }
 
     @media print {
       body { background: #ffffff; color: #000000; }
@@ -597,14 +642,13 @@
         </svg>
         <span>BillGuard India</span>
       </a>
-      <nav id="main-nav">
+      <nav>
         <a href="#auditor-section">Auditor</a>
         <a href="#negotiator-section">Negotiator</a>
         <a href="#resources-section">Checklist</a>
         <a href="#rights-section">Your Rights</a>
         <a href="#auditor-section" class="btn-nav">Start Audit</a>
       </nav>
-      <button id="hamburger" onclick="toggleMobileNav()" style="display:none;background:none;border:1px solid var(--border-dim);color:#fff;padding:0.4rem 0.6rem;border-radius:8px;cursor:pointer;font-size:1.2rem;">☰</button>
     </div>
   </header>
 
@@ -641,54 +685,40 @@
           <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.35rem;">Tip: Under the Clinical Establishments Act, hospitals must give you an itemised bill with procedure codes if you ask.</p>
         </div>
         <!-- CITY TIER SELECTOR -->
-        <div class="form-group">
-          <label class="form-label">City / Location Type</label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
-            <div>
-              <select id="tier-select" class="form-select" onchange="updateCityTier()">
-                <option value="">— Select Tier —</option>
-                <optgroup label="🏙️ Tier 1 Cities">
-                  <option value="tier1_mumbai">Mumbai</option>
-                  <option value="tier1_delhi">Delhi / NCR</option>
-                  <option value="tier1_bangalore">Bangalore</option>
-                  <option value="tier1_chennai">Chennai</option>
-                  <option value="tier1_hyderabad">Hyderabad</option>
-                  <option value="tier1_kolkata">Kolkata</option>
-                </optgroup>
-                <optgroup label="🏘️ Tier 2 Cities">
-                  <option value="tier2_pune">Pune</option>
-                  <option value="tier2_ahmedabad">Ahmedabad</option>
-                  <option value="tier2_jaipur">Jaipur</option>
-                  <option value="tier2_lucknow">Lucknow</option>
-                  <option value="tier2_nagpur">Nagpur</option>
-                  <option value="tier2_surat">Surat</option>
-                  <option value="tier2_bhopal">Bhopal</option>
-                  <option value="tier2_indore">Indore</option>
-                  <option value="tier2_patna">Patna</option>
-                  <option value="tier2_coimbatore">Coimbatore</option>
-                  <option value="tier2_visakhapatnam">Visakhapatnam</option>
-                  <option value="tier2_kochi">Kochi</option>
-                </optgroup>
-                <optgroup label="🏡 Tier 3 / Small Towns">
-                  <option value="tier3">Tier 3 / District Town</option>
-                  <option value="tier3_rural">Rural / Village Area</option>
-                </optgroup>
-              </select>
-            </div>
-            <div>
-              <select id="hosptype-select" class="form-select" onchange="updateCityTier()">
-                <option value="private_mid">Private (Mid-range)</option>
-                <option value="private_corp">Private (Corporate)</option>
-                <option value="private_premium">Private (Premium)</option>
-                <option value="govt">Government / CGHS</option>
-                <option value="trust">Trust / NGO Hospital</option>
-              </select>
-            </div>
+        <div class="tier-selector-wrap">
+          <div class="tier-selector-title">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            City & Hospital Type
           </div>
-          <div id="tier-info-bar" style="display:none;margin-top:0.6rem;padding:0.5rem 0.85rem;background:rgba(75,255,192,0.06);border:1px solid rgba(75,255,192,0.18);border-radius:8px;font-size:0.78rem;color:var(--accent-cyan);display:flex;align-items:center;gap:0.5rem;">
-            <span>📍</span>
-            <span id="tier-info-text">Select city and hospital type</span>
-            <span style="margin-left:auto;font-weight:700;" id="tier-mult-badge"></span>
+          <div class="tier-buttons">
+            <button class="tier-btn" id="tier-btn-1" onclick="selectTier(1)">
+              <span class="tier-icon">🏙️</span>
+              <span class="tier-name">Tier 1</span>
+            </button>
+            <button class="tier-btn" id="tier-btn-2" onclick="selectTier(2)">
+              <span class="tier-icon">🏘️</span>
+              <span class="tier-name">Tier 2</span>
+            </button>
+            <button class="tier-btn" id="tier-btn-3" onclick="selectTier(3)">
+              <span class="tier-icon">🏡</span>
+              <span class="tier-name">Tier 3</span>
+            </button>
+          </div>
+          <div class="city-select-row">
+            <select id="city-select" class="form-input" onchange="updateTierMultiplier()" style="padding:0.75rem 0.9rem;font-size:0.85rem;">
+              <option value="">— Select City —</option>
+            </select>
+            <select id="hosp-type-select" class="form-input" onchange="updateTierMultiplier()" style="padding:0.75rem 0.9rem;font-size:0.85rem;">
+              <option value="1.5">Private (Mid-range)</option>
+              <option value="2.2">Private (Corporate)</option>
+              <option value="3.0">Private (Premium/5★)</option>
+              <option value="1.0">Government / CGHS</option>
+              <option value="0.85">Trust / NGO Hospital</option>
+            </select>
+          </div>
+          <div class="tier-info-pill" id="tier-info-pill">
+            <span id="tier-info-text">—</span>
+            <span class="tier-mult" id="tier-mult-text"></span>
           </div>
         </div>
 
@@ -753,8 +783,8 @@
     <div id="no-overcharge-msg" style="display:none; align-items:center; gap:1.5rem; background: rgba(75,255,192,0.06); border: 1px solid rgba(75,255,192,0.25); border-radius: 20px; padding: 2rem 2.5rem; margin-bottom: 3rem;">
       <div style="font-size:3rem; flex-shrink:0;">🎉</div>
       <div>
-        <h3 style="font-family:var(--font-display); font-weight:800; font-size:1.3rem; color:#4bffc0; margin-bottom:0.4rem;">Aapka Bill Fair Hai!</h3>
-        <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">Aapke sabhi charges CGHS benchmark rate se kam ya equal hain — <strong style="color:var(--text-main);">koi overcharge nahi mili.</strong> Aapko negotiation ki zaroorat nahi hai. Yeh hospital ne fair price charge kiya hai — good news!</p>
+        <h3 style="font-family:var(--font-display); font-weight:800; font-size:1.3rem; color:#4bffc0; margin-bottom:0.4rem;">Your Bill Is Fair! 🎉</h3>
+        <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">All your charges are at or below the CGHS benchmark rate — <strong style="color:var(--text-main);">no overcharge detected.</strong> No negotiation needed. This hospital has charged a fair price — great news!</p>
       </div>
     </div>
 
@@ -914,130 +944,106 @@
     <span id="toast-text">Done!</span>
   </div>
 
-  <!-- ── MODAL HELPER STYLE ── -->
-  <style>
-    .legal-modal { display:none;position:fixed;inset:0;z-index:999;background:rgba(0,3,25,0.88);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:1rem; }
-    .legal-modal-box { background:#0b0e23;border:1px solid rgba(126,111,240,0.28);border-radius:20px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:2.5rem;position:relative;box-shadow:0 24px 64px rgba(0,0,0,0.75);animation:scaleIn 0.28s ease both; }
-    .legal-modal-box h2 { font-family:var(--font-display);font-size:1.45rem;font-weight:800;margin-bottom:0.3rem; }
-    .legal-modal-box .modal-date { color:var(--text-muted);font-size:0.8rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border-dim); }
-    .legal-modal-box .modal-body { font-size:0.875rem;color:var(--text-muted);line-height:1.85;display:flex;flex-direction:column;gap:1.25rem; }
-    .legal-modal-box .modal-body h4 { color:#fff;font-family:var(--font-display);font-size:0.95rem;margin-bottom:0.25rem; }
-    .modal-close-x { position:absolute;top:1.2rem;right:1.2rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;transition:background 0.2s; }
-    .modal-close-x:hover { background:rgba(239,68,68,0.2);border-color:rgba(239,68,68,0.4); }
-    .modal-close-btn { margin-top:1.75rem;width:100%;background:var(--primary);border:none;color:#fff;padding:0.8rem;border-radius:10px;font-family:var(--font-body);font-weight:600;cursor:pointer;font-size:0.9rem;transition:background 0.2s; }
-    .modal-close-btn:hover { background:var(--primary-light); }
-    @media(max-width:480px){ .legal-modal-box{padding:1.5rem;border-radius:14px;} }
-  </style>
-
-  <!-- TERMS & CONDITIONS MODAL -->
+    <!-- TERMS MODAL -->
   <div id="terms-modal" class="legal-modal">
     <div class="legal-modal-box">
-      <button class="modal-close-x" onclick="closeModal('terms-modal')">✕</button>
+      <button class="modal-close-x" onclick="closeLegalModal('terms-modal')">✕</button>
       <h2>📄 Terms &amp; Conditions</h2>
       <p class="modal-date">Last updated: June 2026</p>
       <div class="modal-body">
-        <div><h4>1. Acceptance of Terms</h4><p>By using BillGuard India, you agree to these Terms and Conditions in full. If you disagree with any part, please do not use this tool.</p></div>
-        <div><h4>2. Informational Purpose Only</h4><p>BillGuard India is an educational and informational tool only. All content, dispute letters, scripts, and analysis generated are for informational purposes and do not constitute legal, medical, or financial advice. Always consult a qualified legal professional for formal disputes.</p></div>
-        <div><h4>3. CGHS Rate Accuracy</h4><p>CGHS rates displayed are approximate benchmarks based on publicly available Ministry of Health and Family Welfare (MoHFW) data and may not reflect the most current rates. Always verify against the official CGHS rate card at cghs.gov.in before filing a formal dispute.</p></div>
-        <div><h4>4. No Guarantee of Outcome</h4><p>BillGuard India does not guarantee any specific outcome from using our generated letters or phone scripts. Results of negotiations with hospitals vary based on individual circumstances, hospital policies, and applicable laws in force.</p></div>
-        <div><h4>5. User Responsibility</h4><p>You are solely responsible for verifying the accuracy of information you enter. Do not enter sensitive personal health information beyond what is needed. We are not responsible for any outcome resulting from use of this tool.</p></div>
-        <div><h4>6. Intellectual Property</h4><p>All content, design, code, and branding of BillGuard India is the intellectual property of Dev Samarthasati. Unauthorised reproduction, distribution, or commercial use is strictly prohibited without prior written permission.</p></div>
-        <div><h4>7. Modifications</h4><p>We reserve the right to modify these Terms at any time. Continued use of BillGuard India after changes constitutes acceptance of the revised Terms.</p></div>
-        <div><h4>8. Contact</h4><p>For any queries regarding these Terms, contact us at <a href="mailto:DevSamarthasati@proton.me" style="color:var(--accent-cyan);">DevSamarthasati@proton.me</a>.</p></div>
+        <div><h4>1. Acceptance of Terms</h4><p>By using BillGuard India, you agree to these Terms in full. If you disagree, please do not use this tool.</p></div>
+        <div><h4>2. Informational Purpose Only</h4><p>BillGuard India is an educational tool only. All letters, scripts, and analysis are for informational purposes and do not constitute legal, medical, or financial advice.</p></div>
+        <div><h4>3. CGHS Rate Accuracy</h4><p>CGHS rates are approximate benchmarks from publicly available MoHFW data and may not reflect the most current rates. Always verify at cghs.gov.in before filing a formal dispute.</p></div>
+        <div><h4>4. No Guarantee of Outcome</h4><p>BillGuard India does not guarantee any specific negotiation outcome. Results vary based on individual circumstances and hospital policies.</p></div>
+        <div><h4>5. User Responsibility</h4><p>You are solely responsible for verifying accuracy of information entered. We are not responsible for any outcome from use of this tool.</p></div>
+        <div><h4>6. Intellectual Property</h4><p>All content, design, and code is the intellectual property of Dev Samarthasati. Unauthorised reproduction or commercial use is strictly prohibited.</p></div>
+        <div><h4>7. Contact</h4><p>For queries: <a href="mailto:DevSamarthasati@proton.me">DevSamarthasati@proton.me</a></p></div>
       </div>
-      <button class="modal-close-btn" onclick="closeModal('terms-modal')">I Understand — Close</button>
+      <button class="modal-close-btn" onclick="closeLegalModal('terms-modal')">I Understand — Close</button>
     </div>
   </div>
 
   <!-- PRIVACY POLICY MODAL -->
   <div id="privacy-modal" class="legal-modal">
     <div class="legal-modal-box">
-      <button class="modal-close-x" onclick="closeModal('privacy-modal')">✕</button>
+      <button class="modal-close-x" onclick="closeLegalModal('privacy-modal')">✕</button>
       <h2>🔒 Privacy Policy</h2>
       <p class="modal-date">Last updated: June 2026</p>
       <div class="modal-body">
-        <div><h4>1. No Data Collection</h4><p>BillGuard India does not collect, store, or transmit any personal data to external servers. All information you enter — patient name, hospital name, bill amounts — exists only within your browser session and is never sent anywhere.</p></div>
-        <div><h4>2. Local Storage Only</h4><p>If you use the "Save Bill" feature, data is saved to your browser's localStorage — a local storage mechanism on your own device. This data never leaves your device and is not accessible to us or any third party.</p></div>
-        <div><h4>3. No Cookies or Tracking</h4><p>BillGuard India does not use cookies, tracking pixels, analytics scripts, or any third-party tracking technology. We do not monitor your usage, behaviour, or activity on this tool.</p></div>
-        <div><h4>4. No Third-Party Sharing</h4><p>We do not share, sell, rent, or trade any information with third parties under any circumstances. There are no advertising partners, data brokers, or affiliate networks connected to BillGuard India.</p></div>
-        <div><h4>5. Health Information</h4><p>We strongly advise you not to enter specific medical diagnosis information, patient IDs, or Aadhaar numbers into BillGuard India. Only bill amounts and procedure codes are needed for the tool to function.</p></div>
-        <div><h4>6. Children's Privacy</h4><p>BillGuard India is not directed at children under the age of 13. We do not knowingly collect information from minors. If you believe a minor has used this tool, please contact us immediately.</p></div>
-        <div><h4>7. Changes to This Policy</h4><p>We may update this Privacy Policy from time to time. We recommend reviewing it periodically. Continued use of BillGuard India constitutes acceptance of any updated policy.</p></div>
-        <div><h4>8. Contact</h4><p>For privacy-related queries, email us at <a href="mailto:DevSamarthasati@proton.me" style="color:var(--accent-cyan);">DevSamarthasati@proton.me</a>. We respond within 48 hours.</p></div>
+        <div><h4>1. No Data Collection</h4><p>BillGuard India does not collect, store, or transmit any personal data to external servers. All information exists only within your browser session.</p></div>
+        <div><h4>2. Local Storage Only</h4><p>If you use the "Save Bill" feature, data is saved to your browser's localStorage on your own device only. It never leaves your device.</p></div>
+        <div><h4>3. No Cookies or Tracking</h4><p>We do not use cookies, tracking pixels, analytics scripts, or any third-party tracking technology. We do not monitor your usage or activity.</p></div>
+        <div><h4>4. No Third-Party Sharing</h4><p>We do not share, sell, rent, or trade any information with third parties under any circumstances.</p></div>
+        <div><h4>5. Health Information</h4><p>We strongly advise you not to enter specific medical diagnoses or Aadhaar numbers. Only bill amounts and procedure codes are needed.</p></div>
+        <div><h4>6. Children's Privacy</h4><p>BillGuard India is not directed at children under 13. We do not knowingly collect information from minors.</p></div>
+        <div><h4>7. Contact</h4><p>For privacy queries: <a href="mailto:DevSamarthasati@proton.me">DevSamarthasati@proton.me</a></p></div>
       </div>
-      <button class="modal-close-btn" onclick="closeModal('privacy-modal')">Got It — Close</button>
+      <button class="modal-close-btn" onclick="closeLegalModal('privacy-modal')">Got It — Close</button>
     </div>
   </div>
 
   <!-- DISCLAIMER MODAL -->
   <div id="disclaimer-modal" class="legal-modal">
     <div class="legal-modal-box">
-      <button class="modal-close-x" onclick="closeModal('disclaimer-modal')">✕</button>
+      <button class="modal-close-x" onclick="closeLegalModal('disclaimer-modal')">✕</button>
       <h2>⚠️ Disclaimer</h2>
       <p class="modal-date">Last updated: June 2026</p>
       <div class="modal-body">
-        <div><h4>Not Legal Advice</h4><p>BillGuard India is not a law firm and does not provide legal advice. The dispute letters, phone scripts, and information generated by this tool are for educational and informational purposes only. For formal legal proceedings, always engage a qualified consumer rights advocate or legal professional.</p></div>
-        <div><h4>Not Medical Advice</h4><p>The procedure descriptions, medical terminology, and health-related content on BillGuard India are for reference purposes only. Nothing on this platform constitutes medical advice. Always consult a licensed medical professional for health-related decisions.</p></div>
-        <div><h4>CGHS Rates Are Benchmarks Only</h4><p>The CGHS rates shown are approximate benchmarks derived from publicly available government data. Actual fair prices may vary by location, hospital type, and the specific version of a procedure performed. BillGuard India does not guarantee the accuracy or completeness of these rates.</p></div>
-        <div><h4>No Guarantee of Results</h4><p>Using BillGuard India does not guarantee a reduction in your hospital bill. Negotiation outcomes depend on many factors including the hospital's policies, the nature of the dispute, and applicable local laws. Past results experienced by other users do not guarantee similar outcomes for you.</p></div>
-        <div><h4>External Links & References</h4><p>BillGuard India may reference external resources such as cghs.gov.in, edaakhil.nic.in, and consumer helplines. We are not responsible for the content, accuracy, or availability of these external resources.</p></div>
-        <div><h4>Limitation of Liability</h4><p>To the fullest extent permitted by Indian law, BillGuard India and its creator Dev Samarthasati shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of or reliance on this tool.</p></div>
-        <div><h4>Jurisdiction</h4><p>This Disclaimer shall be governed by and construed in accordance with the laws of India. Any disputes arising from the use of BillGuard India shall be subject to the exclusive jurisdiction of courts in India.</p></div>
-        <div><h4>Contact</h4><p>For questions about this Disclaimer, email <a href="mailto:DevSamarthasati@proton.me" style="color:var(--accent-cyan);">DevSamarthasati@proton.me</a>.</p></div>
+        <div><h4>Not Legal Advice</h4><p>BillGuard India is not a law firm. The dispute letters and phone scripts are for educational purposes only. For formal legal proceedings, engage a qualified consumer rights advocate.</p></div>
+        <div><h4>Not Medical Advice</h4><p>All medical terminology and procedure descriptions are for reference only. Always consult a licensed medical professional for health decisions.</p></div>
+        <div><h4>CGHS Rates Are Benchmarks Only</h4><p>CGHS rates shown are approximate benchmarks. Actual fair prices may vary by location, hospital type, and procedure specifics.</p></div>
+        <div><h4>No Guarantee of Results</h4><p>Using BillGuard India does not guarantee a bill reduction. Outcomes depend on many factors including hospital policies and applicable local laws.</p></div>
+        <div><h4>Limitation of Liability</h4><p>To the fullest extent permitted by Indian law, BillGuard India and Dev Samarthasati shall not be liable for any damages arising from use of this tool.</p></div>
+        <div><h4>Jurisdiction</h4><p>This Disclaimer is governed by the laws of India. Any disputes are subject to the exclusive jurisdiction of Indian courts.</p></div>
+        <div><h4>Contact</h4><p><a href="mailto:DevSamarthasati@proton.me">DevSamarthasati@proton.me</a></p></div>
       </div>
-      <button class="modal-close-btn" onclick="closeModal('disclaimer-modal')">Understood — Close</button>
+      <button class="modal-close-btn" onclick="closeLegalModal('disclaimer-modal')">Understood — Close</button>
     </div>
   </div>
 
   <footer>
     <div style="max-width:1200px;margin:0 auto;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2rem;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border-dim);">
-        <div style="max-width:300px;text-align:left;">
-          <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;margin-bottom:0.5rem;">
-            🛡️ BillGuard <span style="background:linear-gradient(135deg,#fff 30%,var(--primary-light) 70%,var(--accent-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">India</span>
-          </div>
-          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Empowering Indian patients to audit and dispute hospital overcharges using CGHS benchmarks and Indian law.</p>
+        <div style="max-width:280px;text-align:left;">
+          <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;margin-bottom:0.6rem;">&#127697; BillGuard India</div>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.65;">Empowering Indian patients to audit and dispute hospital overcharges using CGHS benchmarks and Indian law.</p>
         </div>
         <div style="display:flex;gap:3rem;flex-wrap:wrap;">
           <div style="text-align:left;">
-            <h4 style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;margin-bottom:0.75rem;">Quick Links</h4>
-            <div style="display:flex;flex-direction:column;gap:0.45rem;">
-              <a href="#auditor-section" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Bill Auditor</a>
-              <a href="#negotiator-section" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Negotiator</a>
-              <a href="#resources-section" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Dispute Checklist</a>
-              <a href="#rights-section" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Your Rights</a>
+            <h4 style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;margin-bottom:0.8rem;">Quick Links</h4>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              <a href="#auditor-section" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;">Bill Auditor</a>
+              <a href="#negotiator-section" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;">Negotiator</a>
+              <a href="#resources-section" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;">Checklist</a>
+              <a href="#rights-section" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;">Your Rights</a>
             </div>
           </div>
           <div style="text-align:left;">
-            <h4 style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;margin-bottom:0.75rem;">Legal</h4>
-            <div style="display:flex;flex-direction:column;gap:0.45rem;">
-              <a href="#" onclick="openModal('terms-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Terms & Conditions</a>
-              <a href="#" onclick="openModal('privacy-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Privacy Policy</a>
-              <a href="#" onclick="openModal('disclaimer-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;transition:color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Disclaimer</a>
+            <h4 style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;margin-bottom:0.8rem;">Legal</h4>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              <a href="#" onclick="openLegalModal('terms-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;">&#128196; Terms &amp; Conditions</a>
+              <a href="#" onclick="openLegalModal('privacy-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;">&#128274; Privacy Policy</a>
+              <a href="#" onclick="openLegalModal('disclaimer-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.83rem;">&#9888; Disclaimer</a>
             </div>
           </div>
           <div style="text-align:left;">
-            <h4 style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;margin-bottom:0.75rem;">Contact</h4>
-            <div style="display:flex;flex-direction:column;gap:0.45rem;">
-              <a href="mailto:DevSamarthasati@proton.me" style="color:var(--accent-cyan);text-decoration:none;font-size:0.83rem;display:flex;align-items:center;gap:0.4rem;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                DevSamarthasati@proton.me
-              </a>
-              <span style="color:var(--text-muted);font-size:0.78rem;">Response within 48 hours</span>
-              <span style="color:var(--text-muted);font-size:0.78rem;">© 2026 Dev Samarthasati</span>
+            <h4 style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;margin-bottom:0.8rem;">Contact</h4>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              <a href="mailto:DevSamarthasati@proton.me" style="color:var(--accent-cyan);text-decoration:none;font-size:0.83rem;">DevSamarthasati@proton.me</a>
+              <span style="font-size:0.78rem;color:var(--text-muted);">Response within 48 hours</span>
+              <span style="font-size:0.78rem;color:var(--text-muted);">&#169; 2026 Dev Samarthasati</span>
             </div>
           </div>
         </div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
-        <p style="font-size:0.75rem;color:var(--text-dim);">© 2026 BillGuard India by Dev Samarthasati. All rights reserved.</p>
-        <p style="font-size:0.75rem;color:var(--text-dim);">
-          <a href="#" onclick="document.getElementById('terms-modal').style.display='flex';return false;" style="color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Terms & Conditions</a>
-          &nbsp;·&nbsp;
-          <a href="mailto:DevSamarthasati@proton.me" style="color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--accent-cyan)'" onmouseout="this.style.color='var(--text-muted)'">Contact</a>
-          &nbsp;·&nbsp;
-          <span style="color:var(--text-dim);">Not legal advice</span>
-        </p>
+        <p style="font-size:0.75rem;color:var(--text-dim);">&#169; 2026 BillGuard India by Dev Samarthasati. All rights reserved.</p>
+        <div style="display:flex;gap:1.25rem;flex-wrap:wrap;">
+          <a href="#" onclick="openLegalModal('terms-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.75rem;">Terms</a>
+          <a href="#" onclick="openLegalModal('privacy-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.75rem;">Privacy</a>
+          <a href="#" onclick="openLegalModal('disclaimer-modal');return false;" style="color:var(--text-muted);text-decoration:none;font-size:0.75rem;">Disclaimer</a>
+          <a href="mailto:DevSamarthasati@proton.me" style="color:var(--text-muted);text-decoration:none;font-size:0.75rem;">Contact</a>
+        </div>
       </div>
     </div>
   </footer>
@@ -1412,9 +1418,8 @@
       bc.className = `badge ${cat === 'emergency' || cat === 'surgery' ? 'badge-critical' : cat === 'imaging' ? 'badge-moderate' : 'badge-fair'}`;
       document.getElementById('box-name').textContent = s.name;
       document.getElementById('box-avg').textContent = formatINR(s.avgCharge);
-      // Apply city/hospital multiplier to fair price
-      const adjustedFair = Math.round(s.fairPrice * (globalRateMultiplier || 1.0));
-      document.getElementById('box-fair').textContent = formatINR(adjustedFair);
+      const adjFair = Math.round(s.fairPrice * (globalRateMultiplier || 1.0));
+      document.getElementById('box-fair').textContent = formatINR(adjFair);
       detailsBox.style.display = 'block';
     };
 
@@ -1422,8 +1427,8 @@
       const billed = parseFloat(chargeInput.value);
       if (!appState.selectedProcedure) { alert('Please search and select a procedure first.'); return; }
       if (isNaN(billed) || billed <= 0) { alert('Please enter a valid billed amount.'); return; }
-      const adjustedFair = Math.round(appState.selectedProcedure.fairPrice * (globalRateMultiplier || 1.0));
-      appState.addedItems.push({ id: Date.now(), procedure: appState.selectedProcedure, billed, fair: adjustedFair });
+      const adjFair = Math.round(appState.selectedProcedure.fairPrice * (globalRateMultiplier || 1.0));
+      appState.addedItems.push({ id: Date.now(), procedure: appState.selectedProcedure, billed, fair: adjFair });
       searchInput.value = ''; chargeInput.value = '';
       detailsBox.style.display = 'none'; appState.selectedProcedure = null;
       updateDashboard(); triggerToast('Line item added to your audit!');
@@ -1711,57 +1716,156 @@
       navigator.clipboard.writeText(document.getElementById('letter-document').innerText).then(() => triggerToast('Letter copied to clipboard!')).catch(() => {});
     };
 
+    // ══════════════════════════════
+    // ── CITY TIER SYSTEM ──
+    // ══════════════════════════════
+    const tierCities = {
+      1: [
+        { val:'mumbai',       label:'Mumbai',       mult:1.55 },
+        { val:'delhi',        label:'Delhi / NCR',  mult:1.50 },
+        { val:'bangalore',    label:'Bangalore',    mult:1.45 },
+        { val:'chennai',      label:'Chennai',      mult:1.35 },
+        { val:'hyderabad',    label:'Hyderabad',    mult:1.35 },
+        { val:'kolkata',      label:'Kolkata',      mult:1.30 },
+      ],
+      2: [
+        { val:'pune',         label:'Pune',         mult:1.20 },
+        { val:'ahmedabad',    label:'Ahmedabad',    mult:1.15 },
+        { val:'jaipur',       label:'Jaipur',       mult:1.10 },
+        { val:'lucknow',      label:'Lucknow',      mult:1.10 },
+        { val:'nagpur',       label:'Nagpur',       mult:1.10 },
+        { val:'surat',        label:'Surat',        mult:1.12 },
+        { val:'bhopal',       label:'Bhopal',       mult:1.08 },
+        { val:'indore',       label:'Indore',       mult:1.10 },
+        { val:'patna',        label:'Patna',        mult:1.05 },
+        { val:'coimbatore',   label:'Coimbatore',   mult:1.12 },
+        { val:'kochi',        label:'Kochi',        mult:1.15 },
+        { val:'chandigarh',   label:'Chandigarh',   mult:1.15 },
+        { val:'vizag',        label:'Visakhapatnam',mult:1.10 },
+        { val:'vadodara',     label:'Vadodara',     mult:1.10 },
+      ],
+      3: [
+        { val:'tier3_town',   label:'District Town',mult:1.00 },
+        { val:'tier3_semi',   label:'Semi-Urban',   mult:0.95 },
+        { val:'tier3_rural',  label:'Rural / Village',mult:0.88 },
+      ]
+    };
+
+    let globalRateMultiplier = 1.0;
+    let activeTier = null;
+
+    window.selectTier = function(tier) {
+      activeTier = tier;
+      // Update button styles
+      [1,2,3].forEach(t => {
+        const btn = document.getElementById('tier-btn-' + t);
+        btn.className = 'tier-btn';
+        if (t === tier) btn.classList.add('active-t' + tier);
+      });
+
+      // Populate city dropdown
+      const sel = document.getElementById('city-select');
+      sel.innerHTML = '<option value="">— Select City —</option>';
+      tierCities[tier].forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.val;
+        opt.textContent = c.label;
+        opt.dataset.mult = c.mult;
+        sel.appendChild(opt);
+      });
+
+      updateTierMultiplier();
+    };
+
+    window.updateTierMultiplier = function() {
+      const citySelect = document.getElementById('city-select');
+      const hospSelect = document.getElementById('hosp-type-select');
+      const pill       = document.getElementById('tier-info-pill');
+      const infoText   = document.getElementById('tier-info-text');
+      const multText   = document.getElementById('tier-mult-text');
+
+      const cityOpt = citySelect.options[citySelect.selectedIndex];
+      const cityMult = cityOpt && cityOpt.dataset.mult ? parseFloat(cityOpt.dataset.mult) : 1.0;
+      const hospMult = parseFloat(hospSelect.value) || 1.5;
+
+      globalRateMultiplier = cityMult * hospMult;
+
+      if (!citySelect.value) {
+        pill.style.display = 'none';
+        globalRateMultiplier = 1.0;
+        return;
+      }
+
+      const cityName = cityOpt.textContent;
+      const hospName = hospSelect.options[hospSelect.selectedIndex].textContent;
+      const tierNames = { 1:'🏙️ Tier 1', 2:'🏘️ Tier 2', 3:'🏡 Tier 3' };
+      const tierLabel = tierNames[activeTier] || '';
+
+      infoText.textContent = tierLabel + ' · ' + cityName + ' · ' + hospName;
+      multText.textContent = globalRateMultiplier.toFixed(1) + '× CGHS';
+
+      if      (globalRateMultiplier >= 3.0) multText.style.color = '#ef4444';
+      else if (globalRateMultiplier >= 2.0) multText.style.color = '#f59e0b';
+      else if (globalRateMultiplier >= 1.3) multText.style.color = '#4bffc0';
+      else                                  multText.style.color = '#10b981';
+
+      pill.style.display = 'flex';
+
+      // Update shown fair price if procedure selected
+      if (appState && appState.selectedProcedure) {
+        const adj = Math.round(appState.selectedProcedure.fairPrice * globalRateMultiplier);
+        document.getElementById('box-fair').textContent = formatINR(adj);
+      }
+    };
+
+    // ══════════════════════════════
+    // ── LEGAL MODALS ──
+    // ══════════════════════════════
+    window.openLegalModal = function(id) {
+      const m = document.getElementById(id);
+      if (m) { m.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+    };
+    window.closeLegalModal = function(id) {
+      const m = document.getElementById(id);
+      if (m) { m.style.display = 'none'; document.body.style.overflow = ''; }
+    };
+    // Close on backdrop click
+    document.querySelectorAll('.legal-modal').forEach(modal => {
+      modal.addEventListener('click', e => { if (e.target === modal) closeLegalModal(modal.id); });
+    });
+    // ESC key close
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal').forEach(m => {
+          if (m.style.display === 'flex') closeLegalModal(m.id);
+        });
+      }
+    });
+
+
     // ── SCROLL REVEAL ──
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    const _revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
 
-    document.querySelectorAll('.card, .rights-card, .timeline-card').forEach(el => {
-      el.classList.add('reveal-on-scroll');
-      revealObserver.observe(el);
+    document.querySelectorAll('.card, .rights-card, .timeline-card, .check-item').forEach(el => {
+      el.classList.add('scroll-reveal');
+      _revealObs.observe(el);
     });
 
-    // ── NUMBER POP on stat update ──
-    function popStat(id) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.classList.remove('pop');
-      void el.offsetWidth; // reflow
-      el.classList.add('pop');
-      setTimeout(() => el.classList.remove('pop'), 400);
-    }
-
-    // Patch updateDashboard to trigger pops
-    const _origUpdate = updateDashboard;
-    // Override summary text setters to add pop
-    const _origBilled  = Object.getOwnPropertyDescriptor(HTMLElement.prototype,'textContent');
-    // Simple approach — observe stat-val changes with MutationObserver
-    ['summary-billed','summary-fair','summary-savings'].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      new MutationObserver(() => {
-        el.classList.remove('pop');
-        void el.offsetWidth;
-        el.classList.add('pop');
-        setTimeout(() => el.classList.remove('pop'), 400);
-      }).observe(el, { childList: true, characterData: true, subtree: true });
-    });
-
-    // ── RIPPLE on buttons ──
+    // ── RIPPLE on .btn clicks ──
     document.querySelectorAll('.btn').forEach(btn => {
-      btn.style.position = 'relative';
-      btn.style.overflow = 'hidden';
       btn.addEventListener('click', function(e) {
-        const r = document.createElement('span');
+        const r   = document.createElement('span');
         const rect = btn.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
         r.style.cssText = `
-          position:absolute;border-radius:50%;
+          position:absolute;border-radius:50%;pointer-events:none;
           width:${size}px;height:${size}px;
           left:${e.clientX - rect.left - size/2}px;
-          top:${e.clientY - rect.top - size/2}px;
-          background:rgba(255,255,255,0.18);
-          transform:scale(0);pointer-events:none;
+          top:${e.clientY - rect.top  - size/2}px;
+          background:rgba(255,255,255,0.16);
+          transform:scale(0);
           animation:rippleAnim 0.55s linear;
         `;
         btn.appendChild(r);
@@ -1769,157 +1873,17 @@
       });
     });
 
-    // Add ripple keyframe dynamically
-    const style = document.createElement('style');
-    style.textContent = '@keyframes rippleAnim{to{transform:scale(2.5);opacity:0}}';
-    document.head.appendChild(style);
-
-
-    // ── MOBILE NAV TOGGLE ──
-    window.toggleMobileNav = function() {
-      const nav = document.getElementById('main-nav');
-      nav.classList.toggle('open');
-    };
-    // Close nav on link click
-    document.querySelectorAll('#main-nav a').forEach(a => {
-      a.addEventListener('click', () => {
-        document.getElementById('main-nav').classList.remove('open');
+    // ── STAGGER bill item rows on add ──
+    function staggerRows() {
+      document.querySelectorAll('.bill-item-row').forEach((row, i) => {
+        row.style.animationDelay = (i * 0.06) + 's';
       });
-    });
-    // Close nav on outside click
-    document.addEventListener('click', (e) => {
-      const nav = document.getElementById('main-nav');
-      const ham = document.getElementById('hamburger');
-      if (!nav.contains(e.target) && !ham.contains(e.target)) {
-        nav.classList.remove('open');
-      }
-    });
-
-
-    // ── MODAL HELPERS ──
-    window.openModal = function(id) {
-      const m = document.getElementById(id);
-      m.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    };
-    window.closeModal = function(id) {
-      const m = document.getElementById(id);
-      m.style.display = 'none';
-      document.body.style.overflow = '';
-    };
-    // Close on backdrop click
-    document.querySelectorAll('.legal-modal').forEach(modal => {
-      modal.addEventListener('click', function(e) {
-        if (e.target === modal) closeModal(modal.id);
-      });
-    });
-    // Close on Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.legal-modal').forEach(m => {
-          if (m.style.display === 'flex') closeModal(m.id);
-        });
-      }
-    });
-
-
-    // ── CITY TIER & HOSPITAL TYPE MULTIPLIERS ──
-    const cityMultipliers = {
-      // Tier 1
-      tier1_mumbai:       1.55,
-      tier1_delhi:        1.50,
-      tier1_bangalore:    1.45,
-      tier1_chennai:      1.35,
-      tier1_hyderabad:    1.35,
-      tier1_kolkata:      1.30,
-      // Tier 2
-      tier2_pune:         1.20,
-      tier2_ahmedabad:    1.15,
-      tier2_jaipur:       1.10,
-      tier2_lucknow:      1.10,
-      tier2_nagpur:       1.10,
-      tier2_surat:        1.12,
-      tier2_bhopal:       1.08,
-      tier2_indore:       1.10,
-      tier2_patna:        1.05,
-      tier2_coimbatore:   1.12,
-      tier2_visakhapatnam:1.10,
-      tier2_kochi:        1.15,
-      // Tier 3
-      tier3:              1.00,
-      tier3_rural:        0.90,
-    };
-
-    const hospMultipliers = {
-      private_mid:     1.5,
-      private_corp:    2.2,
-      private_premium: 3.0,
-      govt:            1.0,
-      trust:           0.85,
-    };
-
-    const hospLabels = {
-      private_mid:     'Private (Mid-range)',
-      private_corp:    'Private (Corporate)',
-      private_premium: 'Private (Premium)',
-      govt:            'Govt / CGHS',
-      trust:           'Trust / NGO',
-    };
-
-    const tierLabels = {
-      tier1_mumbai:'Mumbai', tier1_delhi:'Delhi/NCR', tier1_bangalore:'Bangalore',
-      tier1_chennai:'Chennai', tier1_hyderabad:'Hyderabad', tier1_kolkata:'Kolkata',
-      tier2_pune:'Pune', tier2_ahmedabad:'Ahmedabad', tier2_jaipur:'Jaipur',
-      tier2_lucknow:'Lucknow', tier2_nagpur:'Nagpur', tier2_surat:'Surat',
-      tier2_bhopal:'Bhopal', tier2_indore:'Indore', tier2_patna:'Patna',
-      tier2_coimbatore:'Coimbatore', tier2_visakhapatnam:'Visakhapatnam', tier2_kochi:'Kochi',
-      tier3:'Tier 3 Town', tier3_rural:'Rural Area',
-    };
-
-    // Global rate multiplier — default CGHS base (1.0)
-    let globalRateMultiplier = 1.0;
-
-    window.updateCityTier = function() {
-      const tierVal = document.getElementById('tier-select').value;
-      const hospVal = document.getElementById('hosptype-select').value;
-      const infoBar  = document.getElementById('tier-info-bar');
-      const infoText = document.getElementById('tier-info-text');
-      const multBadge = document.getElementById('tier-mult-badge');
-
-      if (!tierVal) {
-        globalRateMultiplier = 1.0;
-        infoBar.style.display = 'none';
-        return;
-      }
-
-      const cm = cityMultipliers[tierVal] || 1.0;
-      const hm = hospMultipliers[hospVal] || 1.5;
-      globalRateMultiplier = cm * hm;
-
-      const cityName = tierLabels[tierVal] || tierVal;
-      const hospName = hospLabels[hospVal] || hospVal;
-
-      // Determine tier label
-      let tierLabel = '';
-      if (tierVal.startsWith('tier1')) tierLabel = '🏙️ Tier 1';
-      else if (tierVal.startsWith('tier2')) tierLabel = '🏘️ Tier 2';
-      else tierLabel = '🏡 Tier 3';
-
-      infoText.textContent = tierLabel + ' · ' + cityName + ' · ' + hospName + ' — Fair price adjusted';
-      multBadge.textContent = globalRateMultiplier.toFixed(1) + '× CGHS';
-
-      // Color badge by multiplier
-      if (globalRateMultiplier >= 2.5) multBadge.style.color = '#f87171';
-      else if (globalRateMultiplier >= 1.5) multBadge.style.color = '#f59e0b';
-      else multBadge.style.color = '#4bffc0';
-
-      infoBar.style.display = 'flex';
-
-      // If procedure already selected, update displayed fair price
-      if (appState.selectedProcedure) {
-        const adjustedFair = Math.round(appState.selectedProcedure.fairPrice * globalRateMultiplier);
-        document.getElementById('box-fair').textContent = formatINR(adjustedFair);
-      }
+    }
+    // Patch updateDashboard to call stagger after render
+    const _origUD = updateDashboard;
+    updateDashboard = function() {
+      _origUD.apply(this, arguments);
+      setTimeout(staggerRows, 10);
     };
 
   </script>
